@@ -2,6 +2,7 @@ from unicodedata import category
 from core import EnchantmentProbabilityNotice, EnchantmentCategory, EnchantmentSerial, EnchantmentRange, EnchantmentRow, EnchantableAttributeProbability
 from typing import List, TypedDict, final
 from enchantment_converter import EnchantmentProbabilityNoticeConverter
+import MySQLdb
 
 class EnchantableAttributeProbabilityDb(TypedDict): 
     CategoryId: int
@@ -63,7 +64,7 @@ class EnchantmentDatabase:
     def initial(self):
         pass
 
-class _MemoryEnchantmentDatabase(EnchantmentDatabase):
+class MemoryEnchantmentDatabase(EnchantmentDatabase):
     __serials: List[EnchantmentSerial]
     __categories: List[EnchantmentCategory]
     __ranges: List[EnchantmentRange]
@@ -132,7 +133,70 @@ class _MemoryEnchantmentDatabase(EnchantmentDatabase):
         if (newValue not in self.__attributeProbabilities):
             self.__attributeProbabilities.append(newValue)
 
+class MySQLEnchantmentDatabase(EnchantmentDatabase):
+    def initial(self):
+        conn = MySQLdb.connect(
+            host="jwp63667.mysql.pythonanywhere-services.com",
+            user="jwp63667",
+            passwd="jwp63667jwp63667",
+            db="jwp63667$default")
+
+        cur = conn.cursor()
+
+        dbCreate = '''
+            CREATE TABLE IF NOT EXISTS EnchantmentCategory (
+                Id              INT             NOT NULL    AUTO_INCREMENT,
+                Name            VARCHAR(255)    NOT NULL,
+                IsPercentage    BOOLEAN         NOT NULL,
+                PRIMARY KEY(Id)
+            );
+
+            CREATE TABLE IF NOT EXISTS EnchantmentRange (
+                Id              INT     NOT NULL    AUTO_INCREMENT,
+                Start           INT     NOT NULL,
+                Stop            INT     NOT NULL,
+                Step            INT     NOT NULL,
+                PRIMARY KEY(Id)
+            );
+
+            CREATE TABLE IF NOT EXISTS EnchantmentSerial (
+                Id      INT             NOT NULL    AUTO_INCREMENT,
+                Name    VARCHAR(255)    NOT NULL,
+                Des     VARCHAR(255)    NOT NULL,
+                Url     VARCHAR(255)    NOT NULL,
+                API     VARCHAR(255)    NOT NULL,
+                PRIMARY KEY(Id)
+            );
+
+            CREATE TABLE IF NOT EXISTS EnchantmentRow (
+                Id          INT     NOT NULL    AUTO_INCREMENT,
+                RowNumber   INT     NOT NULL,
+                Probability FLOAT   NOT NULL,
+                PRIMARY KEY(Id)
+            );
+
+            CREATE TABLE IF NOT EXISTS EnchantableAttributeProbability (
+                Id          INT     NOT NULL    AUTO_INCREMENT,
+                Probability FLOAT   NOT NULL,
+                CategoryId  INT     NOT NULL,
+                RangeId     INT     NOT NULL,
+                SerialId    INT     NOT NULL,
+                RowId       INT     NOT NULL,
+                PRIMARY KEY(Id),
+                FOREIGN KEY(CategoryId) REFERENCES EnchantmentCategory(Id),
+                FOREIGN KEY(RangeId) REFERENCES EnchantmentRange(Id),
+                FOREIGN KEY(SerialId) REFERENCES EnchantmentSerial(Id),
+                FOREIGN KEY(RowId) REFERENCES EnchantmentRow(Id)
+            );
+        '''
+        cur.execute(dbCreate)
+
 def createMemoryEnchantmentDatabase() -> EnchantmentDatabase:
-    db = _MemoryEnchantmentDatabase()
+    db = MemoryEnchantmentDatabase()
+    db.initial()
+    return db
+
+def createMySQLEnchantmentDatabase() -> EnchantmentDatabase:
+    db = MySQLEnchantmentDatabase()
     db.initial()
     return db
