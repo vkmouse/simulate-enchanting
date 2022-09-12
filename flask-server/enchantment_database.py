@@ -135,13 +135,13 @@ class MemoryEnchantmentDatabase(EnchantmentDatabase):
 
 class MySQLEnchantmentDatabase(EnchantmentDatabase):
     def initial(self):
-        conn = MySQLdb.connect(
+        self.dbConnect = MySQLdb.connect(
             host="jwp63667.mysql.pythonanywhere-services.com",
             user="jwp63667",
             passwd="jwp63667jwp63667",
             db="jwp63667$default")
 
-        cur = conn.cursor()
+        self.cursor = self.dbConnect.cursor()
 
         dbCreate = '''
             CREATE TABLE IF NOT EXISTS EnchantmentCategory (
@@ -189,7 +189,16 @@ class MySQLEnchantmentDatabase(EnchantmentDatabase):
                 FOREIGN KEY(RowId) REFERENCES EnchantmentRow(Id)
             );
         '''
-        cur.execute(dbCreate)
+        self.cursor.execute(dbCreate)
+
+
+    def appendSerial(self, value: EnchantmentSerial):
+        dbInsert = (
+            "INSERT INTO EnchantmentSerial(Name, Des, Url, API)"
+            "VALUES (%s, %s, %s, %s)"
+        )
+        data = (value['Name'], value['Des'], value['Url'], value['API'])
+        self.cursor.execute(dbInsert, data)
 
 def createMemoryEnchantmentDatabase() -> EnchantmentDatabase:
     db = MemoryEnchantmentDatabase()
