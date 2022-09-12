@@ -6,4 +6,4 @@ CORS(app, resources={r"/.*": {"origins": ["http://localhost/*","https://vkmouse.
 
 @app.route('/')
 def hello_world():
-    return 'Hello from Flask!'
+    return '2022/09/12'
