@@ -1,8 +1,8 @@
 import unittest
-from core import EnchantmentProbabilityNotice
-from enchantment_converter import EnchantmentProbabilityNoticeConverter
+from simulate_enchanting.core import EnchantmentProbabilityNotice
+from simulate_enchanting.parser import Parser
 
-class TestEnchantmentProbabilityNoticeConverter(unittest.TestCase):
+class TestCriticalDamageParser(unittest.TestCase):
     notice: EnchantmentProbabilityNotice = { 
         'Name': '影子技能屬性箱', 
         'Items': [{ 
@@ -42,37 +42,37 @@ class TestEnchantmentProbabilityNoticeConverter(unittest.TestCase):
     }
 
     def testSerial(self):
-        converter = EnchantmentProbabilityNoticeConverter(self.notice)
-        converter.convert()
+        parser = Parser()
+        parseResult = parser.parse(self.notice)
         expected = {
             'Name': '影子技能屬性箱', 
             'Des': '能賦予影子技能系列的附加能力。 需+5以上限定道具才可使用。(附加能力後保留精煉值)', 
             'Url': 'https://ro.gnjoy.com.tw/notice/notice_view.aspx?id=175452',
             'API': 'https://ro.gnjoy.com.tw/notice/Scroll2/ScrollDetail2.ashx?SN=SkillShadowRanBox_TW&scrollID=1023'
         }
-        self.assertDictEqual(converter.serial, expected)
+        self.assertDictEqual(parseResult['Serial'], expected)
 
     def testCategories(self):
-        converter = EnchantmentProbabilityNoticeConverter(self.notice)
-        converter.convert()
+        parser = Parser()
+        parseResult = parser.parse(self.notice)
         expected = [
             { 'Name': '對無屬性攻擊的抗性', 'IsPercentage': True },
             { 'Name': '對風屬性攻擊的抗性', 'IsPercentage': True }
         ]
-        self.assertListEqual(converter.categories, expected)
+        self.assertListEqual(parseResult['Categories'], expected)
 
     def testRanges(self):
-        converter = EnchantmentProbabilityNoticeConverter(self.notice)
-        converter.convert()
+        parser = Parser()
+        parseResult = parser.parse(self.notice)
         expected = [
             { 'Start': 1, 'Stop': 2, 'Step': 1 },
             { 'Start': 3, 'Stop': 5, 'Step': 2 }
         ]
-        self.assertListEqual(converter.ranges, expected)
+        self.assertListEqual(parseResult['Ranges'], expected)
 
     def testRows(self):
-        converter = EnchantmentProbabilityNoticeConverter(self.notice)
-        converter.convert()
+        parser = Parser()
+        parseResult = parser.parse(self.notice)
         expected = [{
             'Probability': 1,
             'RowNumber': 1,
@@ -80,21 +80,16 @@ class TestEnchantmentProbabilityNoticeConverter(unittest.TestCase):
             'Probability': 0.1,
             'RowNumber': 2,
         }]
-        self.assertListEqual(converter.rows, expected)
+        self.assertListEqual(parseResult['Rows'], expected)
 
     def testAttributeProbabilities(self):
-        converter = EnchantmentProbabilityNoticeConverter(self.notice)
-        converter.convert()
+        parser = Parser()
+        parseResult = parser.parse(self.notice)
         expected = [{  
-            'Attribute': {
-                'Category': { 'Name': '對無屬性攻擊的抗性', 'IsPercentage': True },
-                'Range': { 'Start': 1, 'Stop': 2, 'Step': 1 },
-            },
             'Probability': 0.045,
-            'Row': {
-                'Probability': 1,
-                'RowNumber': 1,
-            },
+            'Category': { 'Name': '對無屬性攻擊的抗性', 'IsPercentage': True },
+            'Range': { 'Start': 1, 'Stop': 2, 'Step': 1 },
+            'Row': { 'Probability': 1, 'RowNumber': 1 },
             'Serial': {
                 'Name': '影子技能屬性箱', 
                 'Des': '能賦予影子技能系列的附加能力。 需+5以上限定道具才可使用。(附加能力後保留精煉值)', 
@@ -102,15 +97,10 @@ class TestEnchantmentProbabilityNoticeConverter(unittest.TestCase):
                 'API': 'https://ro.gnjoy.com.tw/notice/Scroll2/ScrollDetail2.ashx?SN=SkillShadowRanBox_TW&scrollID=1023'
             }
         }, {
-            'Attribute': {
-                'Category': { 'Name': '對風屬性攻擊的抗性', 'IsPercentage': True },
-                'Range': { 'Start': 1, 'Stop': 2, 'Step': 1 },
-            },
             'Probability': 0.04,
-            'Row': {
-                'Probability': 1,
-                'RowNumber': 1,
-            },
+            'Category': { 'Name': '對風屬性攻擊的抗性', 'IsPercentage': True },
+            'Range': { 'Start': 1, 'Stop': 2, 'Step': 1 },
+            'Row': { 'Probability': 1, 'RowNumber': 1 },
             'Serial': {
                 'Name': '影子技能屬性箱', 
                 'Des': '能賦予影子技能系列的附加能力。 需+5以上限定道具才可使用。(附加能力後保留精煉值)', 
@@ -118,15 +108,10 @@ class TestEnchantmentProbabilityNoticeConverter(unittest.TestCase):
                 'API': 'https://ro.gnjoy.com.tw/notice/Scroll2/ScrollDetail2.ashx?SN=SkillShadowRanBox_TW&scrollID=1023'
             }
         }, {
-            'Attribute': {
-                'Category': { 'Name': '對風屬性攻擊的抗性', 'IsPercentage': True },
-                'Range': { 'Start': 3, 'Stop': 5, 'Step': 2 },
-            },
             'Probability': 0.0425,
-            'Row': {
-                'Probability': 0.1,
-                'RowNumber': 2,
-            },
+            'Category': { 'Name': '對風屬性攻擊的抗性', 'IsPercentage': True },
+            'Range': { 'Start': 3, 'Stop': 5, 'Step': 2 },
+            'Row': { 'Probability': 0.1, 'RowNumber': 2 },
             'Serial': {
                 'Name': '影子技能屬性箱', 
                 'Des': '能賦予影子技能系列的附加能力。 需+5以上限定道具才可使用。(附加能力後保留精煉值)', 
@@ -134,7 +119,7 @@ class TestEnchantmentProbabilityNoticeConverter(unittest.TestCase):
                 'API': 'https://ro.gnjoy.com.tw/notice/Scroll2/ScrollDetail2.ashx?SN=SkillShadowRanBox_TW&scrollID=1023'
             }
         }]
-        self.assertListEqual(converter.attributeProbabilities, expected)
+        self.assertListEqual(parseResult['Attributes'], expected)
 
 if __name__ == '__main__':
     unittest.main()

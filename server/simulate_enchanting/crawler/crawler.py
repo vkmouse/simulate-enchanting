@@ -1,4 +1,4 @@
-from core import EnchantmentProbabilityNotice
+from simulate_enchanting.core.notice import EnchantmentProbabilityNotice
 from urllib import request, parse
 import bs4
 import json

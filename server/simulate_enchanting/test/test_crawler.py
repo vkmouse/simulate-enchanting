@@ -1,7 +1,7 @@
 import unittest
 from typing import List
-from core import EnchantmentProbabilityNotice
-from crawler import EnchantmentProbabilityNoticeCrawler
+from simulate_enchanting.core.notice import EnchantmentProbabilityNotice
+from simulate_enchanting.crawler.crawler import EnchantmentProbabilityNoticeCrawler
 
 class EnchantmentProbabilityNoticeCrawlerTest(unittest.TestCase):
     notices: List[EnchantmentProbabilityNotice] = [{ 
