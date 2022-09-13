@@ -1,0 +1,1 @@
+from simulate_enchanting.repository.memory_repository.memory_category_repository import MemoryCategoryRepository
