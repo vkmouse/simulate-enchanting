@@ -193,7 +193,7 @@ class GeneralParser(Parser):
             'Range': self.parseRange(itemName)
         }
 
-class LongShortRangedPhysicalDamage(Parser):
+class LongShortRangedPhysicalDamageParser(Parser):
     def match(self, itemName: str):
         return (itemName.find('遠距離') != -1 or itemName.find('近距離') != -1) and itemName.find('攻擊') != -1
 
@@ -255,7 +255,7 @@ class EnchantmentAttributeParser:
             CriticalDamageParser(),
             DelayAfterAttackParser(),
             DelayAfterSkillParser(),
-            LongShortRangedPhysicalDamage(),
+            LongShortRangedPhysicalDamageParser(),
             MHPMSPParser(),
             RecoveryParser(),
             VariableCastTimeParser(),
