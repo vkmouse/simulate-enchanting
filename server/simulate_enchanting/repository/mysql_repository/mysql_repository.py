@@ -2,8 +2,13 @@ from typing import final
 from simulate_enchanting.repository.mysql_repository.mysql_worker import MySQLWorker
 
 class MySQLRepository:
-    def __init__(self, worker: MySQLWorker):
+    def __init__(self, worker: MySQLWorker, testMode=False):
         self._worker = worker
+        self._testMode = testMode
+
+    def __del__(self):
+        if self._testMode:
+            self._dropTable()
 
     def initialize(self):
         self._createTable()
