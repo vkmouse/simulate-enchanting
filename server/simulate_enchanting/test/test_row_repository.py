@@ -41,7 +41,9 @@ class TestRowRepository(unittest.TestCase):
         repository = None
 
     def createMemoryRepository(self):
-        return MemoryRowRepository()
+        repository = MemoryRowRepository()
+        repository.initialize()
+        return repository
 
     def testMemoryAdd(self):
         repository = self.createMemoryRepository()

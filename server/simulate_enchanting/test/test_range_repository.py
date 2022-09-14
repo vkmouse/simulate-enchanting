@@ -41,7 +41,9 @@ class TestRangeRepository(unittest.TestCase):
         repository = None
 
     def createMemoryRepository(self):
-        return MemoryRangeRepository()
+        repository = MemoryRangeRepository()
+        repository.initialize()
+        return repository
 
     def testMemoryAdd(self):
         repository = self.createMemoryRepository()

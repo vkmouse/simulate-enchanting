@@ -2,7 +2,7 @@ from typing import List
 from simulate_enchanting.repository.repository import Repository
 
 class MemoryRepository(Repository):
-    def __init__(self):
+    def initialize(self):
         self.__db = []
 
     def add(self, __object):

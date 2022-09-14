@@ -1,7 +1,8 @@
 from typing import final
+from simulate_enchanting.repository.repository import Repository
 from simulate_enchanting.repository.mysql_repository.mysql_worker import MySQLWorker
 
-class MySQLRepository:
+class MySQLRepository(Repository):
     def __init__(self, worker: MySQLWorker, testMode=False):
         self._worker = worker
         self._testMode = testMode

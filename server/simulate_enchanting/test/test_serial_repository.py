@@ -41,7 +41,9 @@ class TestSerialRepository(unittest.TestCase):
         repository = None
 
     def createMemoryRepository(self):
-        return MemorySerialRepository()
+        repository = MemorySerialRepository()
+        repository.initialize()
+        return repository
 
     def testMemoryAdd(self):
         repository = self.createMemoryRepository()

@@ -1,6 +1,10 @@
 import MySQLdb
 
 class MySQLWorker:
+    def __init__(self):
+        self.__conn = None
+        self.__cursor = None
+
     def __del__(self):
         self.close()
 

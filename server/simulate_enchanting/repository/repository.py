@@ -1,6 +1,9 @@
 import abc
  
 class Repository(metaclass=abc.ABCMeta):
+    def initialize(self):
+        return NotImplemented
+
     def add(self, obj):
         return NotImplemented
     
