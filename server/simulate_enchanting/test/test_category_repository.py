@@ -1,4 +1,3 @@
-from functools import cache
 import unittest
 from simulate_enchanting.repository import MemoryCategoryRepository, MySQLCategoryRepository, MySQLRepository
 
