@@ -4,7 +4,7 @@ class MySQLRangeRepository(MySQLRepository):
     @property
     def _createTableSQL(self) -> str:
         return '''
-            CREATE TABLE IF NOT EXISTS EnchantmentRange (
+            CREATE TABLE IF NOT EXISTS {} (
                 Id              INT     NOT NULL    AUTO_INCREMENT,
                 Start           INT     NOT NULL,
                 Stop            INT     NOT NULL,
