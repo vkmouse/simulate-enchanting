@@ -3,7 +3,7 @@ from simulate_enchanting.repository.mysql_repository.mysql_worker import MySQLWo
 
 class MySQLRepository:
     def __init__(self, worker: MySQLWorker):
-        self._worker = worker
+        self.worker = worker
 
     @property
     def _tableName(self):
@@ -12,4 +12,4 @@ class MySQLRepository:
     @final
     def _dropTable(self, tableName):
         sql = 'DROP TABLE {}'.format(self.tableName)
-        self._worker.connQuery(sql)
+        self.worker.connQuery(sql)
