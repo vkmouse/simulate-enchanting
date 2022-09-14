@@ -3,13 +3,106 @@ from simulate_enchanting.repository.mysql_repository.mysql_worker import MySQLWo
 
 class MySQLRepository:
     def __init__(self, worker: MySQLWorker):
-        self.worker = worker
+        self._worker = worker
+
+    def add(self, __object):
+        data = list(map(lambda prop: __object[prop], self._props))
+        self._worker.cursorExecute(self._addSQL, data)
+
+    def getById(self, __id: int):
+        data = (__id,)
+        self._worker.cursorExecute(self._getByIdSQL, data)
+        row = self._worker.cursorFetchOne()
+        result = { 'Id': row[0] }
+        for i, prop in enumerate(self._props):
+            result[prop] = row[i + 1]
+        return result
+
+    def getId(self, __object) -> int:
+        data = list(map(lambda prop: __object[prop], self._props))
+        self._worker.cursorExecute(self._getIdSQL, data)
+        row = self._worker.cursorFetchOne()
+        return row[0]
 
     @property
-    def _tableName(self):
+    def _tableName(self) -> str:
+        pass
+
+    @property
+    def _props(self) -> list:
         pass
 
     @final
+    @property
+    def _addSQL(self):
+        # prop1, ..., propn
+        commaSeparatedProps = self.__combineProps(
+            '{prop}, ',
+            '{prop}'
+        )
+
+        # %s AS prop1, ..., %s As propn
+        aliasProps = self.__combineProps(
+            '%s AS {prop}, ',
+            '%s AS {prop}'
+        )
+
+        # prop1 = {varName}.prop1 AND ... propn = {varName}.propn
+        condition = self.__combineProps(
+            '{prop} = NewValue.{prop} AND ',
+            '{prop} = NewValue.{prop}'
+        )
+
+        return '''
+            INSERT INTO {tableName} ({commaSeparatedProps}) (
+                SELECT * FROM (
+                    SELECT {aliasProps}
+                ) AS NewValue
+                WHERE NOT EXISTS(
+                    SELECT * FROM {tableName}
+                    WHERE {condition}
+                )
+            );
+        '''.format(
+                aliasProps=aliasProps,
+                commaSeparatedProps=commaSeparatedProps,
+                condition=condition,
+                tableName=self._tableName
+            )
+
+    @final
+    @property
+    def _getByIdSQL(self):
+        return '''
+            SELECT * FROM {tableName}
+            WHERE Id = %s
+        '''.format(tableName=self._tableName)
+
+    @final
+    @property
+    def _getIdSQL(self):
+        # prop1 = %s AND ... propn = %s
+        condition = self.__combineProps(
+            '{prop} = %s AND ',
+            '{prop} = %s'
+        )
+
+        return '''
+            SELECT Id FROM {tableName} 
+            WHERE {condition}
+        '''.format(
+                tableName=self._tableName, 
+                condition=condition
+            )
+
+    @final
     def _dropTable(self):
-        sql = 'DROP TABLE {}'.format(self._tableName)
-        self.worker.connQuery(sql)
+        sql = 'DROP TABLE {tableName}'.format(tableName=self._tableName)
+        self._worker.connQuery(sql)
+
+    def __combineProps(self, exceptLast, last):
+        result = ''
+        for prop in self._props[:len(self._props) - 1]:
+           result += exceptLast.format(prop=prop)
+        result += last.format(prop=self._props[-1])
+        return result
