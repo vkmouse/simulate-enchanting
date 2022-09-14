@@ -1,4 +1,3 @@
-from simulate_enchanting.repository import MySQLWorker
 from simulate_enchanting.repository.mysql_repository.mysql_repository import MySQLRepository
 
 class MySQLCategoryRepository(MySQLRepository):

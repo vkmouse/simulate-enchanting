@@ -1,3 +1,4 @@
 from simulate_enchanting.repository.memory_repository.memory_repositories import MemoryCategoryRepository, MemoryRangeRepository, MemoryRowRepository, MemorySerialRepository
 from simulate_enchanting.repository.mysql_repository.mysql_worker import MySQLWorker
 from simulate_enchanting.repository.mysql_repository.mysql_category_repository import MySQLCategoryRepository
+from simulate_enchanting.repository.mysql_repository.mysql_range_repository import MySQLRangeRepository
