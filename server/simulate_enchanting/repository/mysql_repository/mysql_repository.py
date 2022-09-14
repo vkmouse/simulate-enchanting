@@ -1,4 +1,3 @@
-from sqlite3 import connect
 import MySQLdb
 
 class MySQLRepository:
@@ -8,7 +7,7 @@ class MySQLRepository:
             user='jwp63667',
             passwd='jwp63667jwp63667',
             db='jwp63667$default',
-            connect_timeout=0.5)
+            connect_timeout=1)
         self.__cursor = self.__conn.cursor()
 
     def connQuery(self, sql):
