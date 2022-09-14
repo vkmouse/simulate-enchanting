@@ -6,7 +6,7 @@ class MemoryCategoryRepository(Repository):
         self.__db: list[EnchantmentCategory] = []
 
     def add(self, __object: EnchantmentCategory):
-        __object['Id'] = len(self.__db)
+        __object['Id'] = len(self.__db) + 1
         self.__db.append(__object)
     
     def getById(self, __id: int) -> EnchantmentCategory:

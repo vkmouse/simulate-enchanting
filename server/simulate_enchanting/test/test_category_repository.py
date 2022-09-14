@@ -8,26 +8,26 @@ class TestCategoryRepository(unittest.TestCase):
 
     def testAdd(self):
         repository = self.createRepository()
-        expected = { 'Name': 'Test0', 'IsPercentage': True }
+        expected = { 'Name': 'Test1', 'IsPercentage': True }
         repository.add(expected)
-        actual = repository.getById(0)
+        actual = repository.getById(1)
         self.assertEqual(expected, actual)
 
     def testGetById(self):
         repository = self.createRepository()
-        repository.add({ 'Name': 'Test0', 'IsPercentage': True })
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
         repository.add({ 'Name': 'Test2', 'IsPercentage': True })
-        actual = repository.getById(2)
-        self.assertEqual(actual, { 'Id': 2, 'Name': 'Test2', 'IsPercentage': True })
+        repository.add({ 'Name': 'Test3', 'IsPercentage': True })
+        actual = repository.getById(3)
+        self.assertEqual(actual, { 'Id': 3, 'Name': 'Test3', 'IsPercentage': True })
 
     def testGetId(self):
         repository = self.createRepository()
-        repository.add({ 'Name': 'Test0', 'IsPercentage': True })
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
         repository.add({ 'Name': 'Test2', 'IsPercentage': True })
-        actual = repository.getId({ 'Name': 'Test2', 'IsPercentage': True })
-        self.assertEqual(actual, 2)
+        repository.add({ 'Name': 'Test3', 'IsPercentage': True })
+        actual = repository.getId({ 'Name': 'Test3', 'IsPercentage': True })
+        self.assertEqual(actual, 3)
 
     def testGetByIdException(self):
         repository = self.createRepository()
