@@ -1,2 +1,3 @@
+from simulate_enchanting.repository.mysql_repository.mysql_repository import MySQLRepository
 from simulate_enchanting.repository.memory_repository.memory_category_repository import MemoryCategoryRepository
 from simulate_enchanting.repository.mysql_repository.mysql_category_repository import MySQLCategoryRepository

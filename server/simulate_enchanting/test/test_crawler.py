@@ -30,6 +30,8 @@ class EnchantmentProbabilityNoticeCrawlerTest(unittest.TestCase):
         'API': 'https://ro.gnjoy.com.tw/notice/Scroll2/ScrollDetail2.ashx?SN=Temporal_Box_TW&scrollID=1005'
     }]
     
+    @unittest.skipIf(not EnchantmentProbabilityNoticeCrawler.isAvailable(),
+        'Notice crawler is not available')
     def testRun(self):
         crawler = EnchantmentProbabilityNoticeCrawler()
         notice = crawler.run(self.notices[0]['Url'])
@@ -39,6 +41,8 @@ class EnchantmentProbabilityNoticeCrawlerTest(unittest.TestCase):
         self.assertEqual(notice['API'], self.notices[0]['API'])
         self.assertEqual(notice['Items'][0], self.notices[0]['Items'][0])
 
+    @unittest.skipIf(not EnchantmentProbabilityNoticeCrawler.isAvailable(),
+        'Notice crawler is not available')
     def testCheckNoticeTrue(self):
         crawler = EnchantmentProbabilityNoticeCrawler()
         notice = crawler.run(self.notices[0]['Url'])
@@ -49,6 +53,8 @@ class EnchantmentProbabilityNoticeCrawlerTest(unittest.TestCase):
         self.assertEqual(notice['API'], self.notices[0]['API'])
         self.assertTrue(isEnchantmentProbabilityNotice)
 
+    @unittest.skipIf(not EnchantmentProbabilityNoticeCrawler.isAvailable(),
+        'Notice crawler is not available')
     def testCheckNoticeFalse(self):
         crawler = EnchantmentProbabilityNoticeCrawler()
         notice = crawler.run(self.notices[1]['Url'])

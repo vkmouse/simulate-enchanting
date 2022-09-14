@@ -1,20 +1,18 @@
 from functools import cache
 import unittest
-from simulate_enchanting.repository import MemoryCategoryRepository, MySQLCategoryRepository
+from simulate_enchanting.repository import MemoryCategoryRepository, MySQLCategoryRepository, MySQLRepository
 
 class TestCategoryRepository(unittest.TestCase):
     def createRepository(self):
         return MemoryCategoryRepository()
 
-    def testAdd(self):
-        repository = self.createRepository()
+    def addTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
         actual = repository.getById(1)
         self.assertEqual(actual, { 'Id': 1, 'Name': 'Test1', 'IsPercentage': True })
         repository = None
 
-    def testGetById(self):
-        repository = self.createRepository()
+    def getByIdTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
         repository.add({ 'Name': 'Test2', 'IsPercentage': True })
         repository.add({ 'Name': 'Test3', 'IsPercentage': True })
@@ -22,8 +20,7 @@ class TestCategoryRepository(unittest.TestCase):
         self.assertEqual(actual, { 'Id': 3, 'Name': 'Test3', 'IsPercentage': True })
         repository = None
 
-    def testGetId(self):
-        repository = self.createRepository()
+    def getIdTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
         repository.add({ 'Name': 'Test2', 'IsPercentage': True })
         repository.add({ 'Name': 'Test3', 'IsPercentage': True })
@@ -31,8 +28,7 @@ class TestCategoryRepository(unittest.TestCase):
         self.assertEqual(actual, 3)
         repository = None
 
-    def testGetByIdException(self):
-        repository = self.createRepository()
+    def getByIdExceptionTesting(self, repository):
         try:
             repository.getById(0)
             self.fail()
@@ -40,14 +36,45 @@ class TestCategoryRepository(unittest.TestCase):
             pass
         repository = None
 
-    def testGetIdException(self):
-        repository = self.createRepository()
+    def getIdExceptionTesting(self, repository):
         try:
             repository.getId({ 'Name': 'Test1', 'IsPercentage': True })
             self.fail()
         except Exception:
             pass
         repository = None
+
+    def createMemoryRepository(self):
+        return MemoryCategoryRepository()
+
+    def createMySQLRepository(self):
+        return MySQLCategoryRepository()
+
+    def testMemoryAdd(self):
+        repository = self.createMemoryRepository()
+        self.addTesting(repository)
+
+    def testMemoryGetById(self):
+        repository = self.createMemoryRepository()
+        self.getByIdTesting(repository)
+
+    def testMemoryGetId(self):
+        repository = self.createMemoryRepository()
+        self.getIdTesting(repository)
+
+    def testMemoryGetByIdException(self):
+        repository = self.createMemoryRepository()
+        self.getByIdExceptionTesting(repository)
+
+    def testMemoryGetIdException(self):
+        repository = self.createMemoryRepository()
+        self.getIdExceptionTesting(repository)
+
+    @unittest.skipIf(not MySQLRepository.isAvailable(), 
+        'MySQL database is not available')
+    def testMySQLAdd(self):
+        repository = self.createMySQLRepository()
+        self.addTesting(repository)
 
 if __name__ == '__main__':
     unittest.main()

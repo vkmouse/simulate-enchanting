@@ -1,3 +1,4 @@
+from doctest import Example
 from simulate_enchanting.core.notice import EnchantmentProbabilityNotice
 from urllib import request, parse
 import bs4
@@ -73,3 +74,13 @@ class EnchantmentProbabilityNoticeCrawler:
 
     def checkNotice(self, notice: EnchantmentProbabilityNotice):
         return notice['Items'][0]['Name'] == '---------------固定附加第一欄隨機能力---------------'
+
+    __isAvailable = None
+    @staticmethod
+    def isAvailable():
+        if EnchantmentProbabilityNoticeCrawler.__isAvailable == None:
+            try:
+                EnchantmentProbabilityNoticeCrawler.__isAvailable = len(_getAllProbabilityNoticeUrl()) != 0 
+            except:
+                EnchantmentProbabilityNoticeCrawler.__isAvailable = False
+        return EnchantmentProbabilityNoticeCrawler.__isAvailable

@@ -1,33 +1,32 @@
-import MySQLdb
 from simulate_enchanting.core import EnchantmentCategory
-from simulate_enchanting.repository.repository import Repository
+from simulate_enchanting.repository.mysql_repository.mysql_repository import MySQLRepository
 
 class MySQLCategoryRepository:
     def __init__(self, testMode=False):
         self.__testMode = testMode
-        self.__connect()
+        self.__db = MySQLRepository()
+        self.__db.connect()
         self.__createTable()
 
     def __del__(self):
         if self.__testMode:
             self.__dropTable()
-        self.__cursor.close()
-        self.__conn.close()
+        self.__db.close()
 
     def add(self, __object: EnchantmentCategory):
         data = (__object['Name'], __object['IsPercentage'])
-        self.__cursorExecute(self.__addSQL, data)
+        self.__db.cursorExecute(self.__addSQL, data)
 
     def getById(self, __id: int) -> EnchantmentCategory:
         data = (__id,)
-        self.__cursorExecute(self.__getByIdSQL, data)
-        row = self.__cursorFetchOne()
+        self.__db.cursorExecute(self.__getByIdSQL, data)
+        row = self.__db.cursorFetchOne()
         return { 'Id': row[0], 'Name': row[1], 'IsPercentage': bool(row[2]) }
 
     def getId(self, __object: EnchantmentCategory) -> int:
         data = (__object['Name'], __object['IsPercentage'])
-        self.__cursorExecute(self.__getIdSQL, data)
-        row = self.__cursorFetchOne()
+        self.__db.cursorExecute(self.__getIdSQL, data)
+        row = self.__db.cursorFetchOne()
         return row[0]
     
     @property
@@ -65,14 +64,6 @@ class MySQLCategoryRepository:
         else:
             return 'EnchantmentCategory'
 
-    def __connect(self):
-        self.__conn = MySQLdb.connect(
-            host='jwp63667.mysql.pythonanywhere-services.com',
-            user='jwp63667',
-            passwd='jwp63667jwp63667',
-            db='jwp63667$default')
-        self.__cursor = self.__conn.cursor()
-
     def __createTable(self):
         sql = '''
             CREATE TABLE IF NOT EXISTS {} (
@@ -82,22 +73,8 @@ class MySQLCategoryRepository:
                 PRIMARY KEY(Id)
             );
         '''.format(self.__tableName)
-        self.__connQuery(sql)
+        self.__db.connQuery(sql)
 
     def __dropTable(self):
         sql = 'DROP TABLE {}'.format(self.__tableName)
-        self.__connQuery(sql)
-
-    def __connQuery(self, sql):
-        self.__conn.query(sql)
-
-    def __cursorExecute(self, sql, data):
-        self.__cursor.execute(sql, data)
-        self.__conn.commit()
-
-    def __cursorFetchOne(self):
-        row = self.__cursor.fetchone()
-        if row:
-            return row
-        else:
-            raise Exception('[MySQLCategoryRepository] object is not existed')
+        self.__db.connQuery(sql)
