@@ -1,42 +1,15 @@
-import MySQLdb
+from typing import final
+from simulate_enchanting.repository.mysql_repository.mysql_worker import MySQLWorker
 
 class MySQLRepository:
-    def connect(self):
-        self.__conn = MySQLdb.connect(
-            host='jwp63667.mysql.pythonanywhere-services.com',
-            user='jwp63667',
-            passwd='jwp63667jwp63667',
-            db='jwp63667$default',
-            connect_timeout=1)
-        self.__cursor = self.__conn.cursor()
+    def __init__(self, worker: MySQLWorker):
+        self._worker = worker
 
-    def connQuery(self, sql):
-        self.__conn.query(sql)
+    @property
+    def _tableName(self):
+        pass
 
-    def cursorExecute(self, sql, data):
-        self.__cursor.execute(sql, data)
-        self.__conn.commit()
-
-    def cursorFetchOne(self):
-        row = self.__cursor.fetchone()
-        if row:
-            return row
-        else:
-            raise Exception('[MySQLRepository] object is not existed')
-
-    def close(self):
-        self.__cursor.close()
-        self.__conn.close()
-
-    __isAvailable = None
-    @staticmethod
-    def isAvailable():
-        if MySQLRepository.__isAvailable == None:
-            try:
-                __db = MySQLRepository()
-                __db.connect()
-                __db.close()
-                MySQLRepository.__isAvailable = True
-            except:
-                MySQLRepository.__isAvailable = False
-        return MySQLRepository.__isAvailable
+    @final
+    def _dropTable(self, tableName):
+        sql = 'DROP TABLE {}'.format(self.tableName)
+        self._worker.connQuery(sql)

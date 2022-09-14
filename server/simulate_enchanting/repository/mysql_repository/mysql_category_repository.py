@@ -1,32 +1,32 @@
 from simulate_enchanting.core import EnchantmentCategory
+from simulate_enchanting.repository import MySQLWorker
 from simulate_enchanting.repository.mysql_repository.mysql_repository import MySQLRepository
 
-class MySQLCategoryRepository:
-    def __init__(self, testMode=False):
+class MySQLCategoryRepository(MySQLRepository):
+    def __init__(self, worker: MySQLWorker, testMode=False):
+        super().__init__(worker)
         self.__testMode = testMode
-        self.__db = MySQLRepository()
-        self.__db.connect()
         self.__createTable()
 
     def __del__(self):
         if self.__testMode:
-            self.__dropTable()
-        self.__db.close()
+            self._dropTable()
+        self._worker.close()
 
     def add(self, __object: EnchantmentCategory):
         data = (__object['Name'], __object['IsPercentage'])
-        self.__db.cursorExecute(self.__addSQL, data)
+        self._worker.cursorExecute(self.__addSQL, data)
 
     def getById(self, __id: int) -> EnchantmentCategory:
         data = (__id,)
-        self.__db.cursorExecute(self.__getByIdSQL, data)
-        row = self.__db.cursorFetchOne()
+        self._worker.cursorExecute(self.__getByIdSQL, data)
+        row = self._worker.cursorFetchOne()
         return { 'Id': row[0], 'Name': row[1], 'IsPercentage': bool(row[2]) }
 
     def getId(self, __object: EnchantmentCategory) -> int:
         data = (__object['Name'], __object['IsPercentage'])
-        self.__db.cursorExecute(self.__getIdSQL, data)
-        row = self.__db.cursorFetchOne()
+        self._worker.cursorExecute(self.__getIdSQL, data)
+        row = self._worker.cursorFetchOne()
         return row[0]
     
     @property
@@ -41,24 +41,24 @@ class MySQLCategoryRepository:
                     WHERE Name = NewValue.Name AND IsPercentage = NewValue.IsPercentage
                 )
             );
-        '''.format(tableName=self.__tableName)
+        '''.format(tableName=self._tableName)
 
     @property
     def __getByIdSQL(self):
         return '''
             SELECT * FROM {tableName}
             WHERE Id = %s
-        '''.format(tableName=self.__tableName)
+        '''.format(tableName=self._tableName)
 
     @property
     def __getIdSQL(self):
         return '''
             SELECT Id FROM {tableName} 
             WHERE Name = %s AND IsPercentage = %s
-        '''.format(tableName=self.__tableName)
+        '''.format(tableName=self._tableName)
 
     @property
-    def __tableName(self):
+    def _tableName(self):
         if self.__testMode:
             return 'TestEnchantmentCategory'
         else:
@@ -72,9 +72,5 @@ class MySQLCategoryRepository:
                 IsPercentage    BOOLEAN         NOT NULL,
                 PRIMARY KEY(Id)
             );
-        '''.format(self.__tableName)
-        self.__db.connQuery(sql)
-
-    def __dropTable(self):
-        sql = 'DROP TABLE {}'.format(self.__tableName)
-        self.__db.connQuery(sql)
+        '''.format(self._tableName)
+        self._worker.connQuery(sql)
