@@ -1,5 +1,5 @@
 import unittest
-from simulate_enchanting.repository import MemoryRowRepository
+from simulate_enchanting.repository import MemoryRowRepository, MySQLRowRepository, MySQLWorker
 
 class TestRowRepository(unittest.TestCase):
     def addTesting(self, repository):
@@ -61,6 +61,38 @@ class TestRowRepository(unittest.TestCase):
 
     def testMemoryGetIdException(self):
         repository = self.createMemoryRepository()
+        self.getIdExceptionTesting(repository)
+
+    def createMySQLRepository(self):
+        worker = MySQLWorker()
+        worker.connect()
+        repository = MySQLRowRepository(worker, testMode=True)
+        repository.initialize()
+        return repository
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMySQLAdd(self):
+        repository = self.createMySQLRepository()
+        self.addTesting(repository)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMySQLGetById(self):
+        repository = self.createMySQLRepository()
+        self.getByIdTesting(repository)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMySQLGetId(self):
+        repository = self.createMySQLRepository()
+        self.getIdTesting(repository)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMySQLGetByIdException(self):
+        repository = self.createMySQLRepository()
+        self.getByIdExceptionTesting(repository)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMySQLGetIdException(self):
+        repository = self.createMySQLRepository()
         self.getIdExceptionTesting(repository)
 
 if __name__ == '__main__':
