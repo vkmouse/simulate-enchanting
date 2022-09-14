@@ -1,6 +1,9 @@
 import MySQLdb
 
 class MySQLWorker:
+    def __del__(self):
+        self.close()
+
     def connect(self):
         self.__conn = MySQLdb.connect(
             host='jwp63667.mysql.pythonanywhere-services.com',
@@ -25,8 +28,12 @@ class MySQLWorker:
             raise Exception('[MySQLRepository] object is not existed')
 
     def close(self):
-        self.__cursor.close()
-        self.__conn.close()
+        if self.__cursor != None:
+            self.__cursor.close()
+            self.__cursor = None
+        if self.__conn != None:
+            self.__conn.close()
+            self.__conn = None
 
     __isAvailable = None
     @staticmethod

@@ -43,11 +43,6 @@ class TestCategoryRepository(unittest.TestCase):
     def createMemoryRepository(self):
         return MemoryCategoryRepository()
 
-    def createMySQLRepository(self):
-        worker = MySQLWorker()
-        worker.connect()
-        return MySQLCategoryRepository(worker, testMode=True)
-
     def testMemoryAdd(self):
         repository = self.createMemoryRepository()
         self.addTesting(repository)
@@ -68,32 +63,34 @@ class TestCategoryRepository(unittest.TestCase):
         repository = self.createMemoryRepository()
         self.getIdExceptionTesting(repository)
 
-    @unittest.skipIf(not MySQLWorker.isAvailable(),
-        'MySQL database is not available')
+    def createMySQLRepository(self):
+        worker = MySQLWorker()
+        worker.connect()
+        repository = MySQLCategoryRepository(worker, testMode=True)
+        repository.initialize()
+        return repository
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
     def testMySQLAdd(self):
         repository = self.createMySQLRepository()
         self.addTesting(repository)
 
-    @unittest.skipIf(not MySQLWorker.isAvailable(),
-        'MySQL database is not available')
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
     def testMySQLGetById(self):
         repository = self.createMySQLRepository()
         self.getByIdTesting(repository)
 
-    @unittest.skipIf(not MySQLWorker.isAvailable(),
-        'MySQL database is not available')
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
     def testMySQLGetId(self):
         repository = self.createMySQLRepository()
         self.getIdTesting(repository)
 
-    @unittest.skipIf(not MySQLWorker.isAvailable(),
-        'MySQL database is not available')
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
     def testMySQLGetByIdException(self):
         repository = self.createMySQLRepository()
         self.getByIdExceptionTesting(repository)
 
-    @unittest.skipIf(not MySQLWorker.isAvailable(),
-        'MySQL database is not available')
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
     def testMySQLGetIdException(self):
         repository = self.createMySQLRepository()
         self.getIdExceptionTesting(repository)

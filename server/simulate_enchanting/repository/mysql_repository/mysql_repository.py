@@ -5,6 +5,9 @@ class MySQLRepository:
     def __init__(self, worker: MySQLWorker):
         self._worker = worker
 
+    def initialize(self):
+        self._createTable()
+
     def add(self, __object):
         data = list(map(lambda prop: __object[prop], self._props))
         self._worker.cursorExecute(self._addSQL, data)
@@ -23,6 +26,10 @@ class MySQLRepository:
         self._worker.cursorExecute(self._getIdSQL, data)
         row = self._worker.cursorFetchOne()
         return row[0]
+
+    @property
+    def _createTableSQL(self) -> str:
+        pass
 
     @property
     def _tableName(self) -> str:
@@ -94,6 +101,10 @@ class MySQLRepository:
                 tableName=self._tableName, 
                 condition=condition
             )
+
+    @final
+    def _createTable(self):
+        self._worker.connQuery(self._createTableSQL)
 
     @final
     def _dropTable(self):
