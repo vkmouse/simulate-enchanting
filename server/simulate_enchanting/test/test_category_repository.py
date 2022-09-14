@@ -3,9 +3,6 @@ import unittest
 from simulate_enchanting.repository import MemoryCategoryRepository, MySQLCategoryRepository, MySQLRepository
 
 class TestCategoryRepository(unittest.TestCase):
-    def createRepository(self):
-        return MemoryCategoryRepository()
-
     def addTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
         actual = repository.getById(1)

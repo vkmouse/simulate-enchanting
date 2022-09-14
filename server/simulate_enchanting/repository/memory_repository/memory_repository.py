@@ -1,3 +1,4 @@
+from typing import List
 from simulate_enchanting.repository.repository import Repository
 
 class MemoryRepository(Repository):
@@ -15,10 +16,17 @@ class MemoryRepository(Repository):
         return results[0]
 
     def getId(self, __object) -> int:
-        results = list(filter(lambda i: self._compare(i, __object), self.__db))
+        results = list(filter(lambda i: self.__compare(i, __object), self.__db))
         if len(results) == 0:
             raise Exception('[MemoryRepository] object is not existed')
         return results[0]['Id']
     
-    def _compare(self, lhs, rhs) -> bool:
+    def __compare(self, lhs, rhs) -> bool:
+        for prop in self._props:
+            if lhs[prop] != rhs[prop]:
+                return False
+        return True
+
+    @property
+    def _props(self) -> List[str]: 
         pass
