@@ -10,6 +10,6 @@ class MySQLRepository:
         pass
 
     @final
-    def _dropTable(self, tableName):
-        sql = 'DROP TABLE {}'.format(self.tableName)
+    def _dropTable(self):
+        sql = 'DROP TABLE {}'.format(self._tableName)
         self.worker.connQuery(sql)

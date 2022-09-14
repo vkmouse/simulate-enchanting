@@ -5,6 +5,7 @@ from simulate_enchanting.repository.mysql_repository.mysql_repository import MyS
 class MySQLCategoryRepository(MySQLRepository):
     def __init__(self, worker: MySQLWorker, testMode=False):
         super().__init__(worker)
+        self._worker = worker
         self.__testMode = testMode
         self.__createTable()
 
@@ -28,16 +29,16 @@ class MySQLCategoryRepository(MySQLRepository):
         self._worker.cursorExecute(self.__getIdSQL, data)
         row = self._worker.cursorFetchOne()
         return row[0]
-    
+
     @property
     def __addSQL(self):
         return '''
             INSERT INTO {tableName} (Name, IsPercentage) (
                 SELECT * FROM (
                     SELECT %s AS Name, %s As IsPercentage
-                ) AS NewValue 
+                ) AS NewValue
                 WHERE NOT EXISTS(
-                    SELECT * FROM {tableName} 
+                    SELECT * FROM {tableName}
                     WHERE Name = NewValue.Name AND IsPercentage = NewValue.IsPercentage
                 )
             );
@@ -53,7 +54,7 @@ class MySQLCategoryRepository(MySQLRepository):
     @property
     def __getIdSQL(self):
         return '''
-            SELECT Id FROM {tableName} 
+            SELECT Id FROM {tableName}
             WHERE Name = %s AND IsPercentage = %s
         '''.format(tableName=self._tableName)
 
