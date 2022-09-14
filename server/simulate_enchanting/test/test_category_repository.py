@@ -1,6 +1,6 @@
 from functools import cache
 import unittest
-from simulate_enchanting.repository import MemoryCategoryRepository
+from simulate_enchanting.repository import MemoryCategoryRepository, MySQLCategoryRepository
 
 class TestCategoryRepository(unittest.TestCase):
     def createRepository(self):
