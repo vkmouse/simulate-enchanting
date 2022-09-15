@@ -1,15 +1,29 @@
 from simulate_enchanting.repository.unit_of_work import UnitOfWork
 from simulate_enchanting.repository.memory_repository_impl.memory_repositories import MemoryCategoryRepository, MemoryRangeRepository, MemoryRowRepository, MemorySerialRepository
+from simulate_enchanting.repository.memory_repository_impl.memory_attribute_repository import MemoryAttributeRepository
 
 class MemoryUnitOfWork(UnitOfWork):
+    def _createAttributeRepository(self):
+        repository = MemoryAttributeRepository(self)
+        repository.initialize()
+        return repository
+
     def _createCategoryRepository(self):
-        return MemoryCategoryRepository()
+        repository = MemoryCategoryRepository()
+        repository.initialize()
+        return repository
 
     def _createRangeRepository(self):
-        return MemoryRangeRepository()
+        repository = MemoryRangeRepository()
+        repository.initialize()
+        return repository
 
     def _createRowRepository(self):
-        return MemoryRowRepository()
+        repository = MemoryRowRepository()
+        repository.initialize()
+        return repository
 
     def _createSerialRepository(self):
-        return MemorySerialRepository()
+        repository = MemorySerialRepository()
+        repository.initialize()
+        return repository
