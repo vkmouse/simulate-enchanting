@@ -150,15 +150,17 @@ class TestAttributeRepository(unittest.TestCase):
     @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
     def testMySQLAdd(self):
         unitOfWork = self.createMySQLUnitOfWork()
-        # self.addTesting(unitOfWork)
-        self.preprocess(unitOfWork)
-        unitOfWork.attributeRepository.add({ 
-            'Probability': 0.035, 
-            'Category': unitOfWork.categoryRepository.getById(1),
-            'Range': unitOfWork.rangeRepository.getById(1),
-            'Row': unitOfWork.rowRepository.getById(1),
-            'Serial': unitOfWork.serialRepository.getById(1),
-        })
+        self.addTesting(unitOfWork)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMySQLGetById(self):
+        unitOfWork = self.createMySQLUnitOfWork()
+        self.getByIdTesting(unitOfWork)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMySQLGetByIdException(self):
+        unitOfWork = self.createMySQLUnitOfWork()
+        self.getByIdExceptionTesting(unitOfWork)
 
 if __name__ == '__main__':
     unittest.main()

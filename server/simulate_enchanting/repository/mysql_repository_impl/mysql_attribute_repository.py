@@ -33,6 +33,20 @@ class MySQLAttributeRepository(MySQLRepository):
         ]
         self._worker.cursorExecute(self._addSQL, data)
 
+    def getById(self, __id: int):
+        data = (__id,)
+        self._worker.cursorExecute(self._getByIdSQL, data)
+        row = self._worker.cursorFetchOne()
+        result = { 
+            'Id': row[0],
+            'Probability': row[1],
+            'Category': { 'Id': row[2], 'Name': row[3], 'IsPercentage': row[4] },
+            'Range': { 'Id': row[5], 'Start': row[6], 'Stop': row[7], 'Step': row[8] },
+            'Row': { 'Id': row[9], 'Probability': row[10], 'RowNumber': row[11] },
+            'Serial': { 'Id': row[12], 'Name': row[13], 'Des': row[14], 'Url': row[15], 'API': row[16] },
+        }
+        return result
+
     @property
     def _createTableSQL(self) -> str:
         return '''
@@ -92,6 +106,44 @@ class MySQLAttributeRepository(MySQLRepository):
                     WHERE ABS(NewValue.Probability - Probability) < 0.0001 AND CategoryId = NewValue.CategoryId AND RangeId = NewValue.RangeId AND RowId = NewValue.RowId AND SerialId = NewValue.SerialId
                 )
             );
+        '''.format(
+                tableName=self._tableName,
+                categoryTableName=self.__categoryTableName,
+                rangeTableName=self.__rangeTableName,
+                rowTableName=self.__rowTableName,
+                serialTableName=self.__serialTableName
+            )
+
+    @property
+    def _getByIdSQL(self):
+        return '''
+            SELECT  _attribute.Id, 
+                    _attribute.Probability, 
+                    _category.Id,
+                    _category.Name, 
+                    _category.IsPercentage,
+                    _range.Id,
+                    _range.Start,
+                    _range.Stop,
+                    _range.Step,
+                    _row.Id,
+                    _row.Probability,
+                    _row.RowNumber,
+                    _serial.Id,
+                    _serial.Name,
+                    _serial.Des,
+                    _serial.Url,
+                    _serial.API
+                    FROM {tableName} _attribute
+                    INNER JOIN {categoryTableName} AS _category 
+                        ON _category.Id = _attribute.CategoryId
+                    INNER JOIN {rangeTableName} AS _range
+                        ON _range.Id = _attribute.RangeId
+                    INNER JOIN {rowTableName} AS _row
+                        ON _row.Id = _attribute.RowId
+                    INNER JOIN {serialTableName} AS _serial
+                        ON _serial.Id = _attribute.SerialId
+                    WHERE _attribute.Id = %s;
         '''.format(
                 tableName=self._tableName,
                 categoryTableName=self.__categoryTableName,
