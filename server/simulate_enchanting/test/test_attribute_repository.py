@@ -21,16 +21,21 @@ class TestAttributeRepository(unittest.TestCase):
 
     def addTesting(self, unitOfWork: UnitOfWork):
         self.preprocess(unitOfWork)
-        attribute = { 
+        unitOfWork.attributeRepository.add({ 
+            'Probability': 0.035, 
+            'Category': unitOfWork.categoryRepository.getById(1),
+            'Range': unitOfWork.rangeRepository.getById(1),
+            'Row': unitOfWork.rowRepository.getById(1),
+            'Serial': unitOfWork.serialRepository.getById(1),
+        })
+        self.assertEqual(unitOfWork.attributeRepository.getById(1), { 
             'Id': 1,
             'Probability': 0.035, 
             'Category': unitOfWork.categoryRepository.getById(1),
             'Range': unitOfWork.rangeRepository.getById(1),
             'Row': unitOfWork.rowRepository.getById(1),
             'Serial': unitOfWork.serialRepository.getById(1),
-        }
-        unitOfWork.attributeRepository.add(attribute)
-        self.assertEqual(unitOfWork.attributeRepository.getById(1), attribute)
+        })
 
     def getByIdTesting(self, unitOfWork: UnitOfWork):
         self.preprocess(unitOfWork)
@@ -142,10 +147,18 @@ class TestAttributeRepository(unittest.TestCase):
         unitOfWork.initialize()
         return unitOfWork
 
-    # @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
-    # def testMySQLAdd(self):
-    #     unitOfWork = self.createMySQLUnitOfWork()
-    #     self.addTesting(unitOfWork)
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMySQLAdd(self):
+        unitOfWork = self.createMySQLUnitOfWork()
+        # self.addTesting(unitOfWork)
+        self.preprocess(unitOfWork)
+        unitOfWork.attributeRepository.add({ 
+            'Probability': 0.035, 
+            'Category': unitOfWork.categoryRepository.getById(1),
+            'Range': unitOfWork.rangeRepository.getById(1),
+            'Row': unitOfWork.rowRepository.getById(1),
+            'Serial': unitOfWork.serialRepository.getById(1),
+        })
 
 if __name__ == '__main__':
     unittest.main()

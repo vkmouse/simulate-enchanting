@@ -49,7 +49,6 @@ class MySQLRepository(Repository):
     def _floatProps(self) -> list:
         return []
 
-    @final
     @property
     def _addSQL(self):
         # prop1, ..., propn
