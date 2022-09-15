@@ -6,7 +6,6 @@ class TestRowRepository(unittest.TestCase):
         repository.add({ 'Probability': 0.05, 'RowNumber': 2 })
         actual = repository.getById(1)
         self.assertEqual(actual, { 'Id': 1, 'Probability': 0.05, 'RowNumber': 2 })
-        repository = None
 
     def getByIdTesting(self, repository):
         repository.add({ 'Probability': 0.05, 'RowNumber': 2 })
@@ -14,7 +13,6 @@ class TestRowRepository(unittest.TestCase):
         repository.add({ 'Probability': 0.5, 'RowNumber': 3 })
         actual = repository.getById(3)
         self.assertEqual(actual, { 'Id': 3, 'Probability': 0.5, 'RowNumber': 3 })
-        repository = None
 
     def getIdTesting(self, repository):
         repository.add({ 'Probability': 0.05, 'RowNumber': 2 })
@@ -22,23 +20,24 @@ class TestRowRepository(unittest.TestCase):
         repository.add({ 'Probability': 0.5, 'RowNumber': 3 })
         actual = repository.getId({ 'Probability': 0.5, 'RowNumber': 3 })
         self.assertEqual(actual, 3)
-        repository = None
 
     def getByIdExceptionTesting(self, repository):
+        repository.add({ 'Probability': 0.5, 'RowNumber': 3 })
+        repository.getById(1)
         try:
-            repository.getById(0)
-            self.fail()
+            repository.getById(2)
         except Exception:
-            pass
-        repository = None
+            return
+        self.fail()
 
     def getIdExceptionTesting(self, repository):
+        repository.add({ 'Probability': 0.5, 'RowNumber': 3 })
+        repository.getId({ 'Probability': 0.5, 'RowNumber': 3 })
         try:
-            repository.getId({ 'Probability': 0.5, 'RowNumber': 3 })
-            self.fail()
+            repository.getId({ 'Probability': 0.5, 'RowNumber': 1 })
         except Exception:
-            pass
-        repository = None
+            return
+        self.fail()
 
     def createMemoryRepository(self):
         repository = MemoryRowRepository()

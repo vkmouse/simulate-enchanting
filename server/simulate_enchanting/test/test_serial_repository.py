@@ -6,7 +6,6 @@ class TestSerialRepository(unittest.TestCase):
         repository.add({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
         actual = repository.getById(1)
         self.assertEqual(actual, { 'Id': 1, 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
-        repository = None
 
     def getByIdTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
@@ -14,7 +13,6 @@ class TestSerialRepository(unittest.TestCase):
         repository.add({ 'Name': 'Test3', 'Des': 'Des3', 'Url': 'Url3', 'API': 'API3' })
         actual = repository.getById(3)
         self.assertEqual(actual, { 'Id': 3, 'Name': 'Test3', 'Des': 'Des3', 'Url': 'Url3', 'API': 'API3' })
-        repository = None
 
     def getIdTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
@@ -22,24 +20,25 @@ class TestSerialRepository(unittest.TestCase):
         repository.add({ 'Name': 'Test3', 'Des': 'Des3', 'Url': 'Url3', 'API': 'API3' })
         actual = repository.getId({ 'Name': 'Test3', 'Des': 'Des3', 'Url': 'Url3', 'API': 'API3' })
         self.assertEqual(actual, 3)
-        repository = None
 
     def getByIdExceptionTesting(self, repository):
+        repository.add({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
+        repository.getById(1)
         try:
-            repository.getById(0)
-            self.fail()
+            repository.getById(2)
         except Exception:
-            pass
-        repository = None
+            return
+        self.fail()
 
     def getIdExceptionTesting(self, repository):
+        repository.add({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
+        repository.getId({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
         try:
-            repository.getId({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
-            self.fail()
+            repository.getId({ 'Name': '', 'Des': '', 'Url': '', 'API': '' })
         except Exception:
-            pass
-        repository = None
-
+            return
+        self.fail()
+        
     def createMemoryRepository(self):
         repository = MemorySerialRepository()
         repository.initialize()

@@ -6,7 +6,6 @@ class TestRangeRepository(unittest.TestCase):
         repository.add({ 'Start': 1, 'Stop': 2, 'Step': 1 })
         actual = repository.getById(1)
         self.assertEqual(actual, { 'Id': 1, 'Start': 1, 'Stop': 2, 'Step': 1 })
-        repository = None
 
     def getByIdTesting(self, repository):
         repository.add({ 'Start': 1, 'Stop': 2, 'Step': 1 })
@@ -14,7 +13,6 @@ class TestRangeRepository(unittest.TestCase):
         repository.add({ 'Start': 3, 'Stop': 6, 'Step': 3 })
         actual = repository.getById(3)
         self.assertEqual(actual, { 'Id': 3, 'Start': 3, 'Stop': 6, 'Step': 3 })
-        repository = None
 
     def getIdTesting(self, repository):
         repository.add({ 'Start': 1, 'Stop': 2, 'Step': 1 })
@@ -22,23 +20,24 @@ class TestRangeRepository(unittest.TestCase):
         repository.add({ 'Start': 3, 'Stop': 6, 'Step': 3 })
         actual = repository.getId({ 'Start': 3, 'Stop': 6, 'Step': 3 })
         self.assertEqual(actual, 3)
-        repository = None
 
     def getByIdExceptionTesting(self, repository):
+        repository.add({ 'Start': 3, 'Stop': 6, 'Step': 3 })
+        repository.getById(1)
         try:
-            repository.getById(0)
-            self.fail()
+            repository.getById(2)
         except Exception:
-            pass
-        repository = None
+            return
+        self.fail()
 
     def getIdExceptionTesting(self, repository):
+        repository.add({ 'Start': 3, 'Stop': 6, 'Step': 3 })
+        repository.getId({ 'Start': 3, 'Stop': 6, 'Step': 3 })
         try:
-            repository.getId({ 'Start': 3, 'Stop': 6, 'Step': 3 })
-            self.fail()
+            repository.getId({ 'Start': 3, 'Stop': 6, 'Step': 1 })
         except Exception:
-            pass
-        repository = None
+            return
+        self.fail()
 
     def createMemoryRepository(self):
         repository = MemoryRangeRepository()

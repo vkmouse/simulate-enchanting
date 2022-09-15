@@ -6,7 +6,6 @@ class TestCategoryRepository(unittest.TestCase):
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
         actual = repository.getById(1)
         self.assertEqual(actual, { 'Id': 1, 'Name': 'Test1', 'IsPercentage': True })
-        repository = None
 
     def getByIdTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
@@ -14,7 +13,6 @@ class TestCategoryRepository(unittest.TestCase):
         repository.add({ 'Name': 'Test3', 'IsPercentage': True })
         actual = repository.getById(3)
         self.assertEqual(actual, { 'Id': 3, 'Name': 'Test3', 'IsPercentage': True })
-        repository = None
 
     def getIdTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
@@ -22,23 +20,24 @@ class TestCategoryRepository(unittest.TestCase):
         repository.add({ 'Name': 'Test3', 'IsPercentage': True })
         actual = repository.getId({ 'Name': 'Test3', 'IsPercentage': True })
         self.assertEqual(actual, 3)
-        repository = None
 
     def getByIdExceptionTesting(self, repository):
+        repository.add({ 'Name': 'Test1', 'IsPercentage': True })
+        repository.getById(1)
         try:
-            repository.getById(0)
-            self.fail()
+            repository.getById(2)
         except Exception:
-            pass
-        repository = None
+            return
+        self.fail()
 
     def getIdExceptionTesting(self, repository):
+        repository.add({ 'Name': 'Test1', 'IsPercentage': True })
+        repository.getId({ 'Name': 'Test1', 'IsPercentage': True })
         try:
-            repository.getId({ 'Name': 'Test1', 'IsPercentage': True })
-            self.fail()
+            repository.getId({ 'Name': 'Test1', 'IsPercentage': False })
         except Exception:
-            pass
-        repository = None
+            return
+        self.fail()
 
     def createMemoryRepository(self):
         repository = MemoryCategoryRepository()
