@@ -1,4 +1,4 @@
-from simulate_enchanting.repository.mysql_repository.mysql_repository import MySQLRepository
+from simulate_enchanting.repository.mysql_repository import MySQLRepository
 
 class MySQLSerialRepository(MySQLRepository):
     @property

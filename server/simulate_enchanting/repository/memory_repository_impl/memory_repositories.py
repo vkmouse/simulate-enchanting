@@ -1,4 +1,4 @@
-from simulate_enchanting.repository.memory_repository.memory_repository import MemoryRepository
+from simulate_enchanting.repository.memory_repository import MemoryRepository
 
 class MemoryCategoryRepository(MemoryRepository):
     @property
