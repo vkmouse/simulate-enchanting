@@ -104,7 +104,7 @@ class MySQLRepository(Repository):
             '{prop} = %s'
         )
         for prop in self._floatProps:
-            condition.replace(
+            condition = condition.replace(
                 '{} = %s'.format(prop), 
                 'ABS({} - %s) < 0.0001'.format(prop)
             )
