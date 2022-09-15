@@ -1,6 +1,6 @@
 from unicodedata import category
 import unittest
-from simulate_enchanting.repository import UnitOfWork, MemoryUnitOfWork
+from simulate_enchanting.repository import UnitOfWork, MemoryUnitOfWork, MySQLUnitOfWork
 
 
 class TestAttributeRepository(unittest.TestCase):
@@ -136,6 +136,15 @@ class TestAttributeRepository(unittest.TestCase):
     def testMemoryGetIdException(self):
         unitOfWork = self.createMemoryUnitOfWork()
         self.getIdExceptionTesting(unitOfWork)
+
+    def createMySQLUnitOfWork(self):
+        unitOfWork = MySQLUnitOfWork(testMode=True)
+        unitOfWork.initialize()
+        return unitOfWork
+
+    def testMySQLAdd(self):
+        unitOfWork = self.createMemoryUnitOfWork()
+        # self.addTesting(unitOfWork)
 
 if __name__ == '__main__':
     unittest.main()
