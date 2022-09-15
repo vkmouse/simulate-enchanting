@@ -16,9 +16,16 @@ class MySQLUnitOfWork(UnitOfWork):
         super().initialize()
 
     def _createAttributeRepository(self):
-        repository = MySQLAttributeRepository(self.__worker, self.__testMode)
+        repository = MySQLAttributeRepository(
+            worker=self.__worker,
+            testMode=self.__testMode,
+            categoryTableName=self.categoryRepository._tableName,
+            rangeTableName=self.rangeRepository._tableName,
+            rowTableName=self.rowRepository._tableName,
+            serialTableName=self.serialRepository._tableName,
+        )
         repository.initialize()
-        return super()._createAttributeRepository()
+        return repository
 
     def _createCategoryRepository(self):
         repository = MySQLCategoryRepository(self.__worker, self.__testMode)

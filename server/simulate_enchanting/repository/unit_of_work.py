@@ -2,12 +2,19 @@ import abc
 from simulate_enchanting.repository.repository import Repository
 
 class UnitOfWork(metaclass=abc.ABCMeta):
+    def __del__(self):
+        self.__attributeRepository = None
+        self.__categoryRepository = None
+        self.__rangeRepository = None
+        self.__rowRepository = None
+        self.__serialRepository = None
+
     def initialize(self):
-        self.__attributeRepository = self._createAttributeRepository()
         self.__categoryRepository = self._createCategoryRepository()
         self.__rangeRepository = self._createRangeRepository()
         self.__rowRepository = self._createRowRepository()
         self.__serialRepository = self._createSerialRepository()
+        self.__attributeRepository = self._createAttributeRepository()
 
     @property
     def attributeRepository(self) -> Repository:
