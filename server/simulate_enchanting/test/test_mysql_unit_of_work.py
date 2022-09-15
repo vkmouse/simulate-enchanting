@@ -6,6 +6,7 @@ class TestMySQLUnitOfWork(unittest.TestCase):
     def testRepositoryType(self):
         unitOfWork = MySQLUnitOfWork(testMode=True)
         unitOfWork.initialize()
+        self.assertTrue(str(type(unitOfWork.attributeRepository)).find('MySQLAttributeRepository') > 0)
         self.assertTrue(str(type(unitOfWork.categoryRepository)).find('MySQLCategoryRepository') > 0)
         self.assertTrue(str(type(unitOfWork.rangeRepository)).find('MySQLRangeRepository') > 0)
         self.assertTrue(str(type(unitOfWork.rowRepository)).find('MySQLRowRepository') > 0)
