@@ -1,7 +1,5 @@
-from unicodedata import category
 import unittest
-from simulate_enchanting.repository import UnitOfWork, MemoryUnitOfWork, MySQLUnitOfWork
-
+from simulate_enchanting.repository import UnitOfWork, MemoryUnitOfWork, MySQLUnitOfWork, MySQLWorker
 
 class TestAttributeRepository(unittest.TestCase):
     def preprocess(self, unitOfWork: UnitOfWork):
@@ -142,9 +140,10 @@ class TestAttributeRepository(unittest.TestCase):
         unitOfWork.initialize()
         return unitOfWork
 
-    def testMySQLAdd(self):
-        unitOfWork = self.createMemoryUnitOfWork()
-        # self.addTesting(unitOfWork)
+    # @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    # def testMySQLAdd(self):
+    #     unitOfWork = self.createMySQLUnitOfWork()
+    #     self.addTesting(unitOfWork)
 
 if __name__ == '__main__':
     unittest.main()

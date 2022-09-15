@@ -17,8 +17,8 @@ class TestRowRepository(unittest.TestCase):
     def getIdTesting(self, repository):
         repository.add({ 'Probability': 0.05, 'RowNumber': 2 })
         repository.add({ 'Probability': 1, 'RowNumber': 1 })
-        repository.add({ 'Probability': 0.5, 'RowNumber': 3 })
-        actual = repository.getId({ 'Probability': 0.5, 'RowNumber': 3 })
+        repository.add({ 'Probability': 0.05, 'RowNumber': 3 })
+        actual = repository.getId({ 'Probability': 0.05, 'RowNumber': 3 })
         self.assertEqual(actual, 3)
 
     def getByIdExceptionTesting(self, repository):

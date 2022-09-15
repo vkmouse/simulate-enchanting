@@ -45,6 +45,10 @@ class MySQLRepository(Repository):
     def _props(self) -> list:
         pass
 
+    @property
+    def _floatProps(self) -> list:
+        return []
+
     @final
     @property
     def _addSQL(self):
@@ -99,6 +103,11 @@ class MySQLRepository(Repository):
             '{prop} = %s AND ',
             '{prop} = %s'
         )
+        for prop in self._floatProps:
+            condition.replace(
+                '{} = %s'.format(prop), 
+                'ABS({} - %s) < 0.0001'.format(prop)
+            )
 
         return '''
             SELECT Id FROM {tableName} 

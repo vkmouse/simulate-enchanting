@@ -22,3 +22,7 @@ class MySQLRowRepository(MySQLRepository):
     @property
     def _props(self) -> list:
         return ['Probability', 'RowNumber']
+
+    @property
+    def _floatProps(self) -> list:
+        return ['Probability']
