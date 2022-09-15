@@ -47,6 +47,25 @@ class MySQLAttributeRepository(MySQLRepository):
         }
         return result
 
+    def getId(self, __object) -> int:
+        data = [
+            __object['Probability'],
+            __object['Category']['Name'],
+            __object['Category']['IsPercentage'],
+            __object['Range']['Start'],
+            __object['Range']['Stop'],
+            __object['Range']['Step'],
+            __object['Row']['Probability'],
+            __object['Row']['RowNumber'],
+            __object['Serial']['Name'],
+            __object['Serial']['Des'],
+            __object['Serial']['Url'],
+            __object['Serial']['API'],
+        ]
+        self._worker.cursorExecute(self._getIdSQL, data)
+        row = self._worker.cursorFetchOne()
+        return row[0]
+
     @property
     def _createTableSQL(self) -> str:
         return '''
@@ -144,6 +163,39 @@ class MySQLAttributeRepository(MySQLRepository):
                     INNER JOIN {serialTableName} AS _serial
                         ON _serial.Id = _attribute.SerialId
                     WHERE _attribute.Id = %s;
+        '''.format(
+                tableName=self._tableName,
+                categoryTableName=self.__categoryTableName,
+                rangeTableName=self.__rangeTableName,
+                rowTableName=self.__rowTableName,
+                serialTableName=self.__serialTableName
+            )
+
+    @property
+    def _getIdSQL(self):
+        return '''
+            SELECT _attribute.Id
+            FROM {tableName} _attribute
+            INNER JOIN {categoryTableName} AS _category 
+                ON _category.Id = _attribute.CategoryId
+            INNER JOIN {rangeTableName} AS _range
+                ON _range.Id = _attribute.RangeId
+            INNER JOIN {rowTableName} AS _row
+                ON _row.Id = _attribute.RowId
+            INNER JOIN {serialTableName} AS _serial
+                ON _serial.Id = _attribute.SerialId
+            WHERE ABS(_attribute.Probability - %s) < 0.0001 AND
+                  _category.Name = %s AND 
+                  _category.IsPercentage = %s AND
+                  _range.Start = %s AND
+                  _range.Stop = %s AND
+                  _range.Step = %s AND
+                  ABS(_row.Probability - %s) < 0.0001 AND
+                  _row.RowNumber = %s AND
+                  _serial.Name = %s AND
+                  _serial.Des = %s AND
+                  _serial.Url = %s AND
+                  _serial.API = %s;
         '''.format(
                 tableName=self._tableName,
                 categoryTableName=self.__categoryTableName,

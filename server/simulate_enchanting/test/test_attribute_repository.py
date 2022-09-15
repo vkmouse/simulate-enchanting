@@ -158,9 +158,19 @@ class TestAttributeRepository(unittest.TestCase):
         self.getByIdTesting(unitOfWork)
 
     @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMemoryGetId(self):
+        unitOfWork = self.createMySQLUnitOfWork()
+        self.getIdTesting(unitOfWork)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
     def testMySQLGetByIdException(self):
         unitOfWork = self.createMySQLUnitOfWork()
         self.getByIdExceptionTesting(unitOfWork)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMemoryGetIdException(self):
+        unitOfWork = self.createMySQLUnitOfWork()
+        self.getIdExceptionTesting(unitOfWork)
 
 if __name__ == '__main__':
     unittest.main()
