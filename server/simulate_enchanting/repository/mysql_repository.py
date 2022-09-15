@@ -69,6 +69,11 @@ class MySQLRepository(Repository):
             '{prop} = NewValue.{prop} AND ',
             '{prop} = NewValue.{prop}'
         )
+        for prop in self._floatProps:
+            condition = condition.replace(
+                '{prop} = NewValue.{prop}'.format(prop=prop), 
+                'ABS(NewValue.{prop} - {prop}) < 0.0001'.format(prop=prop)
+            )
 
         return '''
             INSERT INTO {tableName} ({commaSeparatedProps}) (
