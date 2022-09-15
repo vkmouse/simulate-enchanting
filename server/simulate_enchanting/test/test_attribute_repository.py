@@ -73,14 +73,16 @@ class TestAttributeRepository(unittest.TestCase):
 
     def getByIdExceptionTesting(self, unitOfWork: UnitOfWork):
         self.preprocess(unitOfWork)
-        for i in range(1, 4):
-            unitOfWork.attributeRepository.add({             
-                'Probability': i, 
-                'Category': unitOfWork.categoryRepository.getById(i),
-                'Range': unitOfWork.rangeRepository.getById(i),
-                'Row': unitOfWork.rowRepository.getById(i),
-                'Serial': unitOfWork.serialRepository.getById(i)
-            })
+        for i in range(2):
+            for j in range(1, 4):
+                unitOfWork.attributeRepository.add({             
+                    'Probability': j, 
+                    'Category': unitOfWork.categoryRepository.getById(j),
+                    'Range': unitOfWork.rangeRepository.getById(j),
+                    'Row': unitOfWork.rowRepository.getById(j),
+                    'Serial': unitOfWork.serialRepository.getById(j)
+                })
+
         unitOfWork.attributeRepository.getById(1)
         try:
             unitOfWork.attributeRepository.getById(4)

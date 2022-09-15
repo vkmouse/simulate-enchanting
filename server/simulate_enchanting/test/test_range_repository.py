@@ -23,6 +23,7 @@ class TestRangeRepository(unittest.TestCase):
 
     def getByIdExceptionTesting(self, repository):
         repository.add({ 'Start': 3, 'Stop': 6, 'Step': 3 })
+        repository.add({ 'Start': 3, 'Stop': 6, 'Step': 3 })
         repository.getById(1)
         try:
             repository.getById(2)

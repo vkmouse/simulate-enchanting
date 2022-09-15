@@ -23,6 +23,7 @@ class TestSerialRepository(unittest.TestCase):
 
     def getByIdExceptionTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
+        repository.add({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
         repository.getById(1)
         try:
             repository.getById(2)

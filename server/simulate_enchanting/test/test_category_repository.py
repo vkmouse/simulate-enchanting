@@ -23,6 +23,7 @@ class TestCategoryRepository(unittest.TestCase):
 
     def getByIdExceptionTesting(self, repository):
         repository.add({ 'Name': 'Test1', 'IsPercentage': True })
+        repository.add({ 'Name': 'Test1', 'IsPercentage': True })
         repository.getById(1)
         try:
             repository.getById(2)

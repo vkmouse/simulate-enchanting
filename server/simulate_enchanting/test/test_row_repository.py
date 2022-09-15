@@ -23,6 +23,7 @@ class TestRowRepository(unittest.TestCase):
 
     def getByIdExceptionTesting(self, repository):
         repository.add({ 'Probability': 0.5, 'RowNumber': 3 })
+        repository.add({ 'Probability': 0.5, 'RowNumber': 3 })
         repository.getById(1)
         try:
             repository.getById(2)

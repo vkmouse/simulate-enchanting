@@ -6,8 +6,10 @@ class MemoryRepository(Repository):
         self.__db = []
 
     def add(self, __object):
-        __object['Id'] = len(self.__db) + 1
-        self.__db.append(__object)
+        results = list(filter(lambda i: self.__compare(i, __object), self.__db))
+        if len(results) == 0:
+            __object['Id'] = len(self.__db) + 1
+            self.__db.append(__object)
     
     def getById(self, __id: int):
         results = list(filter(lambda i: i['Id'] == __id, self.__db))
