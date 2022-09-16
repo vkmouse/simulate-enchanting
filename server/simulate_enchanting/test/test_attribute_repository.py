@@ -154,6 +154,48 @@ class TestAttributeRepository(unittest.TestCase):
             'Serial': { 'Id': 3, 'Name': 'Test3', 'Des': 'Des3', 'Url': 'Url3', 'API': 'API3' },
         })
 
+    def getBySerialIdTesting(self, unitOfWork: UnitOfWork):
+        self.preprocess(unitOfWork)
+        unitOfWork.attributeRepository.add({ 
+            'Probability': 0.035, 
+            'Category': unitOfWork.categoryRepository.getById(1),
+            'Range': unitOfWork.rangeRepository.getById(1),
+            'Row': unitOfWork.rowRepository.getById(1),
+            'Serial': unitOfWork.serialRepository.getById(1),
+        })
+        unitOfWork.attributeRepository.add({ 
+            'Probability': 0.06, 
+            'Category': unitOfWork.categoryRepository.getById(2),
+            'Range': unitOfWork.rangeRepository.getById(2),
+            'Row': unitOfWork.rowRepository.getById(2),
+            'Serial': unitOfWork.serialRepository.getById(2),
+        })
+        unitOfWork.attributeRepository.add({ 
+            'Probability': 0.07, 
+            'Category': unitOfWork.categoryRepository.getById(3),
+            'Range': unitOfWork.rangeRepository.getById(3),
+            'Row': unitOfWork.rowRepository.getById(3),
+            'Serial': unitOfWork.serialRepository.getById(1),
+        })
+        actual = unitOfWork.attributeRepository.getBySerialId(1)
+        self.assertEqual(len(actual), 2)
+        self.assertEqual(actual[0], {
+            'Id': 1,
+            'Probability': 0.035,
+            'Category': { 'Id': 1, 'Name': 'Test1', 'IsPercentage': True },
+            'Range': { 'Id': 1, 'Start': 1, 'Stop': 2, 'Step': 1 },
+            'Row': { 'Id': 1, 'Probability': 0.05, 'RowNumber': 2 },
+            'Serial': { 'Id': 1, 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' },
+        })
+        self.assertEqual(actual[1], {
+            'Id': 3,
+            'Probability': 0.07,
+            'Category': { 'Id': 3, 'Name': 'Test3', 'IsPercentage': True },
+            'Range': { 'Id': 3, 'Start': 3, 'Stop': 6, 'Step': 3 },
+            'Row': { 'Id': 3, 'Probability': 0.5, 'RowNumber': 3 },
+            'Serial': { 'Id': 1, 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' },
+        })
+
     def createMemoryUnitOfWork(self):
         unitOfWork = MemoryUnitOfWork()
         unitOfWork.initialize()

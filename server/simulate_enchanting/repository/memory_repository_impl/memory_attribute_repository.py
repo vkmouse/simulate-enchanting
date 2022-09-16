@@ -20,6 +20,10 @@ class MemoryAttributeRepository(MemoryRepository):
         results = super().getAll()
         return list(map(lambda p: self.__fromSavedObject(p), results))
 
+    def getBySerialId(self, __serialId):
+        results = list(filter(lambda i: i['SerialId'] == __serialId, self.__db))
+        return list(map(lambda p: self.__fromSavedObject(p), results))
+
     @property
     def _props(self):
         return ['Probability', 'CategoryId', 'RangeId', 'RowId', 'SerialId']
