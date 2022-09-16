@@ -40,6 +40,13 @@ class TestRowRepository(unittest.TestCase):
             return
         self.fail()
 
+    def getAllTesting(self, repository):
+        repository.add({ 'Probability': 0.05, 'RowNumber': 2 })
+        repository.add({ 'Probability': 1, 'RowNumber': 1 })
+        repository.add({ 'Probability': 0.05, 'RowNumber': 3 })
+        actual = repository.getAll()
+        self.assertEqual(len(actual), 3)
+
     def createMemoryRepository(self):
         repository = MemoryRowRepository()
         repository.initialize()
@@ -64,6 +71,10 @@ class TestRowRepository(unittest.TestCase):
     def testMemoryGetIdException(self):
         repository = self.createMemoryRepository()
         self.getIdExceptionTesting(repository)
+
+    def testMemoryGetAll(self):
+        repository = self.createMemoryRepository()
+        self.getAllTesting(repository)
 
     def createMySQLRepository(self):
         worker = MySQLWorker()
@@ -96,6 +107,11 @@ class TestRowRepository(unittest.TestCase):
     def testMySQLGetIdException(self):
         repository = self.createMySQLRepository()
         self.getIdExceptionTesting(repository)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMemoryGetAll(self):
+        repository = self.createMySQLRepository()
+        self.getAllTesting(repository)
 
 if __name__ == '__main__':
     unittest.main()

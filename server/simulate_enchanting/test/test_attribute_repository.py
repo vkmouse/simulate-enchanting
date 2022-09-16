@@ -117,6 +117,19 @@ class TestAttributeRepository(unittest.TestCase):
             return
         self.fail()
 
+    def getAllTesting(self, unitOfWork: UnitOfWork):
+        self.preprocess(unitOfWork)
+        for i in range(1, 4):
+            unitOfWork.attributeRepository.add({             
+                'Probability': i, 
+                'Category': unitOfWork.categoryRepository.getById(i),
+                'Range': unitOfWork.rangeRepository.getById(i),
+                'Row': unitOfWork.rowRepository.getById(i),
+                'Serial': unitOfWork.serialRepository.getById(i)
+            })
+        actual = unitOfWork.attributeRepository.getAll()
+        self.assertEqual(len(actual), 3)
+
     def createMemoryUnitOfWork(self):
         unitOfWork = MemoryUnitOfWork()
         unitOfWork.initialize()
@@ -141,6 +154,10 @@ class TestAttributeRepository(unittest.TestCase):
     def testMemoryGetIdException(self):
         unitOfWork = self.createMemoryUnitOfWork()
         self.getIdExceptionTesting(unitOfWork)
+
+    def testMemoryGetAll(self):
+        repository = self.createMemoryRepository()
+        self.getAllTesting(repository)
 
     def createMySQLUnitOfWork(self):
         unitOfWork = MySQLUnitOfWork(testMode=True)
@@ -171,6 +188,11 @@ class TestAttributeRepository(unittest.TestCase):
     def testMemoryGetIdException(self):
         unitOfWork = self.createMySQLUnitOfWork()
         self.getIdExceptionTesting(unitOfWork)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMemoryGetAll(self):
+        repository = self.createMySQLRepository()
+        self.getAllTesting(repository)
 
 if __name__ == '__main__':
     unittest.main()

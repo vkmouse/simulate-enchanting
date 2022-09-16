@@ -40,6 +40,13 @@ class TestRangeRepository(unittest.TestCase):
             return
         self.fail()
 
+    def getAllTesting(self, repository):
+        repository.add({ 'Start': 1, 'Stop': 2, 'Step': 1 })
+        repository.add({ 'Start': 2, 'Stop': 4, 'Step': 1 })
+        repository.add({ 'Start': 3, 'Stop': 6, 'Step': 3 })
+        actual = repository.getAll()
+        self.assertEqual(len(actual), 3)
+
     def createMemoryRepository(self):
         repository = MemoryRangeRepository()
         repository.initialize()
@@ -64,6 +71,10 @@ class TestRangeRepository(unittest.TestCase):
     def testMemoryGetIdException(self):
         repository = self.createMemoryRepository()
         self.getIdExceptionTesting(repository)
+
+    def testMemoryGetAll(self):
+        repository = self.createMemoryRepository()
+        self.getAllTesting(repository)
 
     def createMySQLRepository(self):
         worker = MySQLWorker()
@@ -96,6 +107,11 @@ class TestRangeRepository(unittest.TestCase):
     def testMySQLGetIdException(self):
         repository = self.createMySQLRepository()
         self.getIdExceptionTesting(repository)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMemoryGetAll(self):
+        repository = self.createMySQLRepository()
+        self.getAllTesting(repository)
 
 if __name__ == '__main__':
     unittest.main()

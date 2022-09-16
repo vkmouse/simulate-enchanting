@@ -40,6 +40,13 @@ class TestSerialRepository(unittest.TestCase):
             return
         self.fail()
         
+    def getAllTesting(self, repository):
+        repository.add({ 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
+        repository.add({ 'Name': 'Test2', 'Des': 'Des2', 'Url': 'Url2', 'API': 'API2' })
+        repository.add({ 'Name': 'Test3', 'Des': 'Des3', 'Url': 'Url3', 'API': 'API3' })
+        actual = repository.getAll()
+        self.assertEqual(len(actual), 3)
+
     def createMemoryRepository(self):
         repository = MemorySerialRepository()
         repository.initialize()
@@ -64,6 +71,10 @@ class TestSerialRepository(unittest.TestCase):
     def testMemoryGetIdException(self):
         repository = self.createMemoryRepository()
         self.getIdExceptionTesting(repository)
+
+    def testMemoryGetAll(self):
+        repository = self.createMemoryRepository()
+        self.getAllTesting(repository)
 
     def createMySQLRepository(self):
         worker = MySQLWorker()
@@ -96,6 +107,11 @@ class TestSerialRepository(unittest.TestCase):
     def testMySQLGetIdException(self):
         repository = self.createMySQLRepository()
         self.getIdExceptionTesting(repository)
+
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMemoryGetAll(self):
+        repository = self.createMySQLRepository()
+        self.getAllTesting(repository)
 
 if __name__ == '__main__':
     unittest.main()
