@@ -1,3 +1,4 @@
+from sqlite3 import connect
 import MySQLdb
 
 class MySQLWorker:
@@ -9,22 +10,26 @@ class MySQLWorker:
         self.close()
 
     def connect(self):
-        self.__conn = MySQLdb.connect(
-            host='jwp63667.mysql.pythonanywhere-services.com',
-            user='jwp63667',
-            passwd='jwp63667jwp63667',
-            db='jwp63667$default',
-            connect_timeout=1)
-        self.__cursor = self.__conn.cursor()
+        if not self.__isConnected():
+            self.__conn = MySQLdb.connect(
+                host='jwp63667.mysql.pythonanywhere-services.com',
+                user='jwp63667',
+                passwd='jwp63667jwp63667',
+                db='jwp63667$default',
+                connect_timeout=1)
+            self.__cursor = self.__conn.cursor()
 
     def connQuery(self, sql):
+        self.connect()
         self.__conn.query(sql)
 
     def cursorExecute(self, sql, data=None):
+        self.connect()
         self.__cursor.execute(sql, data)
         self.__conn.commit()
 
     def cursorFetchOne(self):
+        self.connect()
         row = self.__cursor.fetchone()
         if row:
             return row
@@ -32,6 +37,7 @@ class MySQLWorker:
             raise Exception('[MySQLRepository] object is not existed')
 
     def cursorFetchAll(self):
+        self.connect()
         return self.__cursor.fetchall()
 
     def close(self):
@@ -41,6 +47,13 @@ class MySQLWorker:
         if self.__conn != None:
             self.__conn.close()
             self.__conn = None
+
+    def __isConnected(self):
+        try: 
+            self.__conn.ping()
+            return True
+        except:
+            return False
 
     __isAvailable = None
     @staticmethod
