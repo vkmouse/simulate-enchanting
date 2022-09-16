@@ -46,6 +46,9 @@ class TestCategoryRepository(unittest.TestCase):
         repository.add({ 'Name': 'Test3', 'IsPercentage': True })
         actual = repository.getAll()
         self.assertEqual(len(actual), 3)
+        self.assertEqual(actual[0], { 'Id': 1, 'Name': 'Test1', 'IsPercentage': True })
+        self.assertEqual(actual[1], { 'Id': 2, 'Name': 'Test2', 'IsPercentage': True })
+        self.assertEqual(actual[2], { 'Id': 3, 'Name': 'Test3', 'IsPercentage': True })
 
     def createMemoryRepository(self):
         repository = MemoryCategoryRepository()

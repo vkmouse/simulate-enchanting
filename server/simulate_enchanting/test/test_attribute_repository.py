@@ -129,6 +129,30 @@ class TestAttributeRepository(unittest.TestCase):
             })
         actual = unitOfWork.attributeRepository.getAll()
         self.assertEqual(len(actual), 3)
+        self.assertEqual(actual[0], {
+            'Id': 1,
+            'Probability': 1,
+            'Category': { 'Id': 1, 'Name': 'Test1', 'IsPercentage': True },
+            'Range': { 'Id': 1, 'Start': 1, 'Stop': 2, 'Step': 1 },
+            'Row': { 'Id': 1, 'Probability': 0.05, 'RowNumber': 2 },
+            'Serial': { 'Id': 1, 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' },
+        })
+        self.assertEqual(actual[1], {
+            'Id': 2,
+            'Probability': 2,
+            'Category': { 'Id': 2, 'Name': 'Test2', 'IsPercentage': True },
+            'Range': { 'Id': 2, 'Start': 2, 'Stop': 4, 'Step': 1 },
+            'Row': { 'Id': 2, 'Probability': 1, 'RowNumber': 1 },
+            'Serial': { 'Id': 2, 'Name': 'Test2', 'Des': 'Des2', 'Url': 'Url2', 'API': 'API2' },
+        })
+        self.assertEqual(actual[2], {
+            'Id': 3,
+            'Probability': 3,
+            'Category': { 'Id': 3, 'Name': 'Test3', 'IsPercentage': True },
+            'Range': { 'Id': 3, 'Start': 3, 'Stop': 6, 'Step': 3 },
+            'Row': { 'Id': 3, 'Probability': 0.5, 'RowNumber': 3 },
+            'Serial': { 'Id': 3, 'Name': 'Test3', 'Des': 'Des3', 'Url': 'Url3', 'API': 'API3' },
+        })
 
     def createMemoryUnitOfWork(self):
         unitOfWork = MemoryUnitOfWork()

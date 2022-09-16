@@ -46,6 +46,9 @@ class TestRangeRepository(unittest.TestCase):
         repository.add({ 'Start': 3, 'Stop': 6, 'Step': 3 })
         actual = repository.getAll()
         self.assertEqual(len(actual), 3)
+        self.assertEqual(actual[0], { 'Id': 1, 'Start': 1, 'Stop': 2, 'Step': 1 })
+        self.assertEqual(actual[1], { 'Id': 2, 'Start': 2, 'Stop': 4, 'Step': 1 })
+        self.assertEqual(actual[2], { 'Id': 3, 'Start': 3, 'Stop': 6, 'Step': 3 })
 
     def createMemoryRepository(self):
         repository = MemoryRangeRepository()

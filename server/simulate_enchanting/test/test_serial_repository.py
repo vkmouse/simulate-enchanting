@@ -46,6 +46,9 @@ class TestSerialRepository(unittest.TestCase):
         repository.add({ 'Name': 'Test3', 'Des': 'Des3', 'Url': 'Url3', 'API': 'API3' })
         actual = repository.getAll()
         self.assertEqual(len(actual), 3)
+        self.assertEqual(actual[0], { 'Id': 1, 'Name': 'Test1', 'Des': 'Des1', 'Url': 'Url1', 'API': 'API1' })
+        self.assertEqual(actual[1], { 'Id': 2, 'Name': 'Test2', 'Des': 'Des2', 'Url': 'Url2', 'API': 'API2' })
+        self.assertEqual(actual[2], { 'Id': 3, 'Name': 'Test3', 'Des': 'Des3', 'Url': 'Url3', 'API': 'API3' })
 
     def createMemoryRepository(self):
         repository = MemorySerialRepository()

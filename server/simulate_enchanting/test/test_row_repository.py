@@ -46,6 +46,9 @@ class TestRowRepository(unittest.TestCase):
         repository.add({ 'Probability': 0.05, 'RowNumber': 3 })
         actual = repository.getAll()
         self.assertEqual(len(actual), 3)
+        self.assertEqual(actual[0], { 'Id': 1, 'Probability': 0.05, 'RowNumber': 2 })
+        self.assertEqual(actual[1], { 'Id': 2, 'Probability': 1, 'RowNumber': 1 })
+        self.assertEqual(actual[2], { 'Id': 3, 'Probability': 0.05, 'RowNumber': 3 })
 
     def createMemoryRepository(self):
         repository = MemoryRowRepository()
