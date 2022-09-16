@@ -109,7 +109,7 @@ class TestRangeRepository(unittest.TestCase):
         self.getIdExceptionTesting(repository)
 
     @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
-    def testMemoryGetAll(self):
+    def testMySQLGetAll(self):
         repository = self.createMySQLRepository()
         self.getAllTesting(repository)
 
