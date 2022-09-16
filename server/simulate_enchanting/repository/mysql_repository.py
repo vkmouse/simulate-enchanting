@@ -35,7 +35,14 @@ class MySQLRepository(Repository):
 
     def getAll(self):
         self._worker.cursorExecute(self._getAllSQL)
-        return self._worker.cursorFetchAll()
+        props = ['Id'] + self._props
+        results = []
+        for row in self._worker.cursorFetchAll():
+            result = {}
+            for i, prop in enumerate(props):
+                result[prop] = row[i]
+            results.append(result)
+        return results
 
     @property
     def _createTableSQL(self) -> str:
