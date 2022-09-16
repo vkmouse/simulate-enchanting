@@ -18,6 +18,10 @@ def home():
 
 @app.route('/attributes')
 def attributes():
+    if 'serial_id' in request.args:
+        serialId = request.form.get('serial_id')
+        serialId = json.loads(serialId)
+        return json.dumps(unitOfWork.attributeRepository.getBySerialId(serialId), ensure_ascii=False)
     return json.dumps(unitOfWork.attributeRepository.getAll(), ensure_ascii=False)
 
 @app.route('/categories')

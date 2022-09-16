@@ -264,5 +264,10 @@ class TestAttributeRepository(unittest.TestCase):
         unitOfWork = self.createMySQLUnitOfWork()
         self.getAllTesting(unitOfWork)
 
+    @unittest.skipIf(not MySQLWorker.isAvailable(), 'MySQL is not available')
+    def testMySQLGetBySerialId(self):
+        unitOfWork = self.createMySQLUnitOfWork()
+        self.getBySerialIdTesting(unitOfWork)
+
 if __name__ == '__main__':
     unittest.main()
