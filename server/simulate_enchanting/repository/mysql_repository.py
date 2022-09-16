@@ -35,7 +35,7 @@ class MySQLRepository(Repository):
 
     def getAll(self):
         self._worker.cursorExecute(self._getAllSQL)
-        return self._worker.cursorFetchOne()
+        return self._worker.cursorFetchAll()
 
     @property
     def _createTableSQL(self) -> str:

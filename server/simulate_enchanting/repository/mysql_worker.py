@@ -20,7 +20,7 @@ class MySQLWorker:
     def connQuery(self, sql):
         self.__conn.query(sql)
 
-    def cursorExecute(self, sql, data):
+    def cursorExecute(self, sql, data=None):
         self.__cursor.execute(sql, data)
         self.__conn.commit()
 
