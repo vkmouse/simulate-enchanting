@@ -225,6 +225,10 @@ class TestAttributeRepository(unittest.TestCase):
         repository = self.createMemoryUnitOfWork()
         self.getAllTesting(repository)
 
+    def testMemoryGetBySerialId(self):
+        repository = self.createMemoryUnitOfWork()
+        self.getBySerialIdTesting(repository)
+
     def createMySQLUnitOfWork(self):
         unitOfWork = MySQLUnitOfWork(testMode=True)
         unitOfWork.initialize()

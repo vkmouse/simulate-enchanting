@@ -21,7 +21,7 @@ class MemoryAttributeRepository(MemoryRepository):
         return list(map(lambda p: self.__fromSavedObject(p), results))
 
     def getBySerialId(self, __serialId):
-        results = list(filter(lambda i: i['SerialId'] == __serialId, self.__db))
+        results = list(filter(lambda i: i['SerialId'] == __serialId, self._db))
         return list(map(lambda p: self.__fromSavedObject(p), results))
 
     @property

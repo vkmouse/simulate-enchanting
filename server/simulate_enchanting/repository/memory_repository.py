@@ -3,28 +3,28 @@ from simulate_enchanting.repository.repository import Repository
 
 class MemoryRepository(Repository):
     def initialize(self):
-        self.__db = []
+        self._db = []
 
     def add(self, __object):
-        results = list(filter(lambda i: self.__compare(i, __object), self.__db))
+        results = list(filter(lambda i: self.__compare(i, __object), self._db))
         if len(results) == 0:
-            __object['Id'] = len(self.__db) + 1
-            self.__db.append(__object)
+            __object['Id'] = len(self._db) + 1
+            self._db.append(__object)
     
     def getById(self, __id: int):
-        results = list(filter(lambda i: i['Id'] == __id, self.__db))
+        results = list(filter(lambda i: i['Id'] == __id, self._db))
         if len(results) == 0:
             raise Exception('[MemoryRepository] object is not existed')
         return results[0]
 
     def getId(self, __object) -> int:
-        results = list(filter(lambda i: self.__compare(i, __object), self.__db))
+        results = list(filter(lambda i: self.__compare(i, __object), self._db))
         if len(results) == 0:
             raise Exception('[MemoryRepository] object is not existed')
         return results[0]['Id']
     
     def getAll(self):
-        return self.__db
+        return self._db
 
     def __compare(self, lhs, rhs) -> bool:
         for prop in self._props:
