@@ -31,6 +31,9 @@ class MySQLWorker:
         else:
             raise Exception('[MySQLRepository] object is not existed')
 
+    def cursorFetchAll(self):
+        return self.__cursor.fetchall()
+
     def close(self):
         if self.__cursor != None:
             self.__cursor.close()

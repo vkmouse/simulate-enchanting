@@ -12,3 +12,6 @@ class Repository(metaclass=abc.ABCMeta):
 
     def getId(self, obj):
         return NotImplemented
+
+    def getAll(self):
+        return NotImplemented

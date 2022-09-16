@@ -33,6 +33,10 @@ class MySQLRepository(Repository):
         row = self._worker.cursorFetchOne()
         return row[0]
 
+    def getAll(self):
+        self._worker.cursorExecute(self._getAllSQL)
+        return self._worker.cursorFetchOne()
+
     @property
     def _createTableSQL(self) -> str:
         pass
@@ -120,6 +124,10 @@ class MySQLRepository(Repository):
                 tableName=self._tableName, 
                 condition=condition
             )
+
+    @property
+    def _getAllSQL(self):
+        return 'SELECT * FROM {}'.format(self._tableName)
 
     @final
     def _createTable(self):

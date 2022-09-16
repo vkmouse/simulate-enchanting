@@ -23,6 +23,9 @@ class MemoryRepository(Repository):
             raise Exception('[MemoryRepository] object is not existed')
         return results[0]['Id']
     
+    def getAll(self):
+        return self.__db
+
     def __compare(self, lhs, rhs) -> bool:
         for prop in self._props:
             if lhs[prop] != rhs[prop]:
