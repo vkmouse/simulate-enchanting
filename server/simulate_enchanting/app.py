@@ -1,4 +1,4 @@
-from flask import Flask, request
+import flask
 import json
 from simulate_enchanting.parser import Parser
 from simulate_enchanting.repository import MySQLWorker, MySQLUnitOfWork, MemoryUnitOfWork
@@ -10,7 +10,7 @@ else:
     unitOfWork = MemoryUnitOfWork()
 unitOfWork.initialize()
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 @app.route('/')
 def home():
@@ -18,9 +18,8 @@ def home():
 
 @app.route('/attributes')
 def attributes():
-    if 'serial_id' in request.args:
-        serialId = request.form.get('serial_id')
-        serialId = json.loads(serialId)
+    if 'serial_id' in flask.request.args:
+        serialId = int(flask.request.values.get('serial_id'))
         return json.dumps(unitOfWork.attributeRepository.getBySerialId(serialId), ensure_ascii=False)
     return json.dumps(unitOfWork.attributeRepository.getAll(), ensure_ascii=False)
 
@@ -42,7 +41,7 @@ def serials():
 
 @app.route("/notices", methods=['POST'])
 def notices():
-    notice = request.form.get('notice')
+    notice = flask.request.form.get('notice')
     notice = json.loads(notice)
     parser = Parser()
     result = parser.parse(notice)
