@@ -156,7 +156,7 @@ class TestAttributeRepository(unittest.TestCase):
         self.getIdExceptionTesting(unitOfWork)
 
     def testMemoryGetAll(self):
-        repository = self.createMemoryRepository()
+        repository = self.createMemoryUnitOfWork()
         self.getAllTesting(repository)
 
     def createMySQLUnitOfWork(self):
