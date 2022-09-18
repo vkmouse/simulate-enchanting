@@ -1,4 +1,4 @@
-import { EnchantedAttribute, EnchantedAttributeRow } from "../Core/Core";
+import { EnchantableAttribute, EnchantableAttributeRow, EnchantedAttribute, EnchantedAttributeRow, EnchantmentCategory } from "../Core/Core";
 
 class EnchantedAttributeCalculater {
   sum(attributeRows: Array<EnchantedAttributeRow>): Array<EnchantedAttribute> {
@@ -43,7 +43,39 @@ class EnchantedAttributeCalculater {
     return this.equal(lhs, rhs) || this.betterThan(lhs, rhs);
   }
 
-  private compare(lhs: EnchantedAttribute, rhs: EnchantedAttribute): boolean {
+  calculateProbability(rows: Array<EnchantableAttributeRow>, targets: Array<EnchantedAttribute>): number {
+    if (targets.length === 0) {
+      return 1;
+    }
+    if (rows.length === 0) {
+      return 0;
+    }
+    let probability = 0;
+    const target = targets[0];
+    for (const row of rows) {
+      const currProbability = this.calculateSingleColProbability(row.enchantableAttributes, target);
+      const newRows = this.removeItemOnce(rows, row);
+      const newTargets = this.removeItemOnce(targets, target);
+      probability += row.probability * currProbability * this.calculateProbability(newRows, newTargets);
+    }
+    return probability;
+  }
+
+  calculateSingleColProbability(enchantableAttributes: Array<EnchantableAttribute>, target: EnchantedAttribute) {
+    const found = enchantableAttributes.find(p => this.compare(p, target));
+    if (found !== undefined) {
+      const all: EnchantedAttribute[] = [];
+      for (let i = found.start; i < found.stop + 1; i = i + found.step) {
+        all.push({ ...found, value: i });
+      }
+      const betterOrEqual = all.filter(p => this.betterOrEqualThan([p], [target]));
+      return found.probability * betterOrEqual.length / all.length;
+    } else {
+      return 0;
+    }
+  }
+
+  private compare(lhs: EnchantmentCategory, rhs: EnchantmentCategory): boolean {
     return lhs.name === rhs.name && lhs.isPercentage === rhs.isPercentage;
   }
 
@@ -53,6 +85,15 @@ class EnchantedAttributeCalculater {
       name: attributeRow.name,
       isPercentage: attributeRow.isPercentage
     };
+  }
+
+  private removeItemOnce<T>(arr: T[], value: T) {
+    const newArr = [...arr];
+    const index = newArr.indexOf(value);
+    if (index > -1) {
+      newArr.splice(index, 1);
+    }
+    return newArr;
   }
 }
 

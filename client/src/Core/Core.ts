@@ -1,15 +1,16 @@
+export interface EnchantmentCategory {
+  name: string
+  isPercentage: boolean
+}
+
 export interface Enchanted {
   value: number
 }
 
-export interface EnchantedAttribute extends Enchanted {
-  name: string
-  isPercentage: boolean
+export interface EnchantedAttribute extends Enchanted, EnchantmentCategory {
 }
 
-export interface EnchantedAttributeRow extends Enchanted {
-  name: string
-  isPercentage: boolean
+export interface EnchantedAttributeRow extends Enchanted, EnchantmentCategory {
   rowNumber: number
 }
 
@@ -17,9 +18,7 @@ export interface Enchantable {
   probability: number
 }
 
-export interface EnchantableAttribute extends Enchantable {
-  name: string
-  isPercentage: boolean
+export interface EnchantableAttribute extends Enchantable, EnchantmentCategory {
   start: number
   stop: number
   step: number
