@@ -1,4 +1,5 @@
 import flask
+import flask_cors
 import json
 from simulate_enchanting.parser import Parser
 from simulate_enchanting.repository import MySQLWorker, MySQLUnitOfWork, MemoryUnitOfWork
@@ -11,6 +12,7 @@ else:
 unitOfWork.initialize()
 
 app = flask.Flask(__name__)
+flask_cors.CORS(app, resources={r"/.*": {"origins": ["http://localhost/*", "https://vkmouse.github.io/*"]}})
 
 @app.route('/')
 def home():
