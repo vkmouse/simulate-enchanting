@@ -1,10 +1,10 @@
 class ProbabilityConverter {
-  convertRange(start: number, stop: number, step: number): Array<number> {
-    const probs = [];
+  expandRange(start: number, stop: number, step: number): Array<number> {
+    const values = [];
     for (let i = start; i < stop + 1; i = i + step) {
-        probs.push(i);
+        values.push(i);
     }
-    return probs;
+    return values;
   }
 }
 
