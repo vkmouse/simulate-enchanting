@@ -28,3 +28,14 @@ export interface EnchantableAttributeRow extends Enchantable {
   enchantableAttributes: Array<EnchantableAttribute>
   rowNumber: number
 }
+
+export enum EnchantingTerminationCondition {
+  TimesReached,
+  TargetReached
+}
+
+export interface EnchantedUserProps {
+  condition: EnchantingTerminationCondition
+  times?: number
+  targets?: EnchantedAttribute[]
+}
