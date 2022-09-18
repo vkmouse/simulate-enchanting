@@ -1,4 +1,4 @@
-import { EnchantableAttribute, EnchantableAttributeRow, EnchantedAttribute, EnchantedAttributeRow, EnchantmentCategory } from "../Core/Core";
+import { EnchantableAttribute, EnchantableAttributeRow, EnchantedAttribute, EnchantedAttributeRow, EnchantmentCategory } from "../../Core/Core";
 
 class EnchantedAttributeCalculater {
   sum(attributeRows: Array<EnchantedAttributeRow>): Array<EnchantedAttribute> {
