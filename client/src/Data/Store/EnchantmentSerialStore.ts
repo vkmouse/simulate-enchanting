@@ -4,24 +4,24 @@ import { EnchantmentSerial } from "../EnchantmentSerial";
 
 class EnchantmentSerialStore {
   @observable serials: EnchantmentSerial[] = [];
-  @observable currentSerialId: number | '';
+  @observable serialId: number | '';
 
   constructor() {
     makeObservable(this);
     this.serials = [];
-    this.currentSerialId = '';
+    this.serialId = '';
   }
 
   initialize() {
     const source = new DataSource();
     source.getSerials().then(serials => {
       this.setSerials(serials);
-      this.setCurrentSerialId(serials[0].id);
+      this.setSerialId(serials[0].id);
     });
   }
 
-  @action setCurrentSerialId(serialId: number) {
-    this.currentSerialId = serialId;
+  @action setSerialId(serialId: number) {
+    this.serialId = serialId;
   }
 
   @action private setSerials(serials: EnchantmentSerial[]) {

@@ -13,8 +13,8 @@ class EnchantmentSerialInfoController {
     this.props = props;
   }
 
-  setCurrentSerialId(id: number) {
-    this.props.enchantmentSerialStore.setCurrentSerialId(id);
+  setSerialId(id: number) {
+    this.props.enchantmentSerialStore.setSerialId(id);
   }
 
   getSerialData(): ComponentData[] {
@@ -28,7 +28,7 @@ class EnchantmentSerialInfoController {
 
   getSerial(): EnchantmentSerial {
     const found = this.props.enchantmentSerialStore.serials.find(
-      p => p.id === this.props.enchantmentSerialStore.currentSerialId);
+      p => p.id === this.props.enchantmentSerialStore.serialId);
     if (found) {
       return found;
     } else {

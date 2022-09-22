@@ -24,16 +24,16 @@ class EnchantmentSerialInfoViewModel extends React.Component<IProps> {
     this.controller = new EnchantmentSerialInfoController(props);
     this.eventProps = {
       onSerialChange: (value: NonNullable<unknown>) => 
-        this.controller.setCurrentSerialId(value as number)
+        this.controller.setSerialId(value as number)
     };
   }
 
   render() {
     return (
       <EnchantmentSerialInfoView
-        serial={this.props.enchantmentSerialStore.currentSerialId}
-        serialData={this.controller.getSerialData()}
+        {...this.props.enchantmentSerialStore}
         {...this.eventProps}
+        serialData={this.controller.getSerialData()}
       />
     );
   }

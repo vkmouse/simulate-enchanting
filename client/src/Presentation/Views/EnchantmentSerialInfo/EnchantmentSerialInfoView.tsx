@@ -3,16 +3,14 @@ import ComponentData from "../../Components/ComponentData";
 import Combobox from "../../Components/CustomCombobox";
 
 interface IProps {
-  serial: NonNullable<unknown>
+  serialId: NonNullable<unknown>
   serialData: ComponentData[]
   onSerialChange?: (value: NonNullable<unknown>) => void
-  onNumSamplesChange?: (value: number) => void
-  onStartSimulationClick?: () => void
 }
 
 class EnchantmentSerialInfoView extends React.Component<IProps> {
   render() {
-    const { serial, serialData, onSerialChange } = this.props;
+    const { serialId, serialData, onSerialChange } = this.props;
     return (
       <div className="wrapper">
         <div className="wrapper__title">附魔系列</div>
@@ -20,7 +18,7 @@ class EnchantmentSerialInfoView extends React.Component<IProps> {
           <Combobox 
             label="附魔系列"
             data={serialData}
-            value={serial}
+            value={serialId}
             onChange={onSerialChange}
           />
         </div>

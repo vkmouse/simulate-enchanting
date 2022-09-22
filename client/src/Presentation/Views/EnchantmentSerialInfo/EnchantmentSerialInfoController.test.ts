@@ -16,7 +16,7 @@ class MockEnchantmentSerialStore extends EnchantmentSerialStore {
       url: "url2",
       api: "api2",
     }];
-    this.currentSerialId = 1;
+    this.serialId = 1;
   }
 }
 
@@ -33,11 +33,11 @@ test('get serial', () => {
   });
 });
 
-test('set current serial id', () => {
+test('set serial id', () => {
   const enchantmentSerialStore = new MockEnchantmentSerialStore();
   enchantmentSerialStore.initialize();
   const controller = new EnchantmentSerialInfoController({ enchantmentSerialStore });
-  controller.setCurrentSerialId(2);
+  controller.setSerialId(2);
   expect(controller.getSerial()).toStrictEqual({
     id: 2,
     name: "name2",
