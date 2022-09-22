@@ -33,6 +33,7 @@ class EnchantmentSerialInfoViewModel extends React.Component<IProps> {
       <EnchantmentSerialInfoView
         {...this.props.enchantmentSerialStore}
         {...this.eventProps}
+        {...this.controller.getSerial()}
         serialData={this.controller.getSerialData()}
       />
     );

@@ -1,4 +1,3 @@
-import { EnchantmentSerial } from "../../../Data/EnchantmentSerial";
 import EnchantmentSerialStore from "../../../Data/Store/EnchantmentSerialStore";
 import ComponentData from "../../Components/ComponentData";
 
@@ -26,13 +25,19 @@ class EnchantmentSerialInfoController {
     });
   }
 
-  getSerial(): EnchantmentSerial {
+  getSerial() {
     const found = this.props.enchantmentSerialStore.serials.find(
       p => p.id === this.props.enchantmentSerialStore.serialId);
     if (found) {
-      return found;
+      return {
+        serialDescription: found.des,
+        serialUrl: found.url
+      };
     } else {
-      throw ('No find');
+      return {
+        serialDescription: '',
+        serialUrl: ''
+      };
     }
   }
 }

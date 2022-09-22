@@ -25,11 +25,8 @@ test('get serial', () => {
   enchantmentSerialStore.initialize();
   const controller = new EnchantmentSerialInfoController({ enchantmentSerialStore });
   expect(controller.getSerial()).toStrictEqual({
-    id: 1,
-    name: "name1",
-    des: "des1",
-    url: "url1",
-    api: "api1"
+    serialDescription: "des1",
+    serialUrl: "url1",
   });
 });
 
@@ -39,10 +36,7 @@ test('set serial id', () => {
   const controller = new EnchantmentSerialInfoController({ enchantmentSerialStore });
   controller.setSerialId(2);
   expect(controller.getSerial()).toStrictEqual({
-    id: 2,
-    name: "name2",
-    des: "des2",
-    url: "url2",
-    api: "api2"
+    serialDescription: "des2",
+    serialUrl: "url2",
   });
 });
