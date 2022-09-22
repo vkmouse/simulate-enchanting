@@ -4,12 +4,12 @@ import { EnchantmentSerial } from "../EnchantmentSerial";
 
 class EnchantmentSerialStore {
   @observable serials: EnchantmentSerial[] = [];
-  @observable currentSerialId: number;
+  @observable currentSerialId: number | '';
 
   constructor() {
     makeObservable(this);
     this.serials = [];
-    this.currentSerialId = -1;
+    this.currentSerialId = '';
   }
 
   initialize() {

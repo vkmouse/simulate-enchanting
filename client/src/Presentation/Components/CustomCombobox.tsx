@@ -22,6 +22,9 @@ function CustomCombobox(props: IProps) {
     <FormControl sx={{ m: 1, minWidth: 125, margin: 0, marginLeft: 1 }} size="small">
       <InputLabel>{label}</InputLabel>
       <Select value={value} label={label} onChange={handleChange} >
+        <MenuItem value={''}>
+            <em>None</em>
+        </MenuItem>
         {data.map(p =>
           <MenuItem key={p.name} value={p.value as string}>
             {p.name}
