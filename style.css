@@ -1,0 +1,34 @@
+:root {
+  --bg-primary: #3b5998;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+}
+
+.page__content {
+  width: 800px;
+}
+
+.wrapper {
+
+}
+
+.wrapper__title {
+  align-items: center;
+  background-color: #3b5998;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  color: #f7f7f7;
+  display: flex;
+  font-size: 20px;
+  height: 43px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.wrapper__content {
+  background-color: #EAF3F9;
+  padding: 10px;
+}
