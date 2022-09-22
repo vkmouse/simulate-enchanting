@@ -1,4 +1,3 @@
-# React Flask Sample
+# RO 附魔模擬器
 
-## Run flask server unit test
-python -m unittest
+[RO 附魔模擬器](https://vkmouse.github.io/simulate-enchanting/)
