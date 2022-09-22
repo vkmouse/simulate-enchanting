@@ -1,27 +1,31 @@
+import { action, makeObservable, observable } from "mobx";
 import DataSource from "../DataSource";
 import { EnchantmentSerial } from "../EnchantmentSerial";
 
 class EnchantmentSerialStore {
-  serials: EnchantmentSerial[];
-  currentSerialId: number;
+  @observable serials: EnchantmentSerial[] = [];
+  @observable currentSerialId: number;
 
   constructor() {
+    makeObservable(this);
     this.serials = [];
     this.currentSerialId = -1;
   }
 
   initialize() {
     const source = new DataSource();
-    source.getSerials().then(this.setSerials);
-    this.currentSerialId = this.serials[0].id;
+    source.getSerials().then(serials => {
+      this.setSerials(serials);
+      this.setCurrentSerialId(serials[0].id);
+    });
   }
 
-  private setSerials(serials: EnchantmentSerial[]) {
-    this.serials = serials;
-  }
-
-  setCurrentSerialId(serialId: number) {
+  @action setCurrentSerialId(serialId: number) {
     this.currentSerialId = serialId;
+  }
+
+  @action private setSerials(serials: EnchantmentSerial[]) {
+    this.serials = serials;
   }
 }
 
