@@ -13,3 +13,24 @@ test('get serials', () => {
     }
   });
 });
+
+test('get attributes by serialId', () => {
+  const source = new DataSource();
+  return source.getAttributesBySerialId(1).then(enchantableAttributeRows => {
+    expect(enchantableAttributeRows.length > 0).toBeTruthy();
+    for (const row of enchantableAttributeRows) {
+      expect(row.probability !== 0).toBeTruthy();
+      expect(row.rowNumber !== 0).toBeTruthy();
+      expect(row.enchantableAttributes.length !== 0).toBeTruthy();
+
+      for (const attribute of row.enchantableAttributes) {
+        expect(attribute.isPercentage !== undefined).toBeTruthy();
+        expect(attribute.name !== undefined).toBeTruthy();
+        expect(attribute.probability !== undefined).toBeTruthy();
+        expect(attribute.start !== undefined).toBeTruthy();
+        expect(attribute.step !== undefined).toBeTruthy();
+        expect(attribute.stop !== undefined).toBeTruthy();
+      }
+    }
+  });
+});
