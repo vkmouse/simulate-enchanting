@@ -28,11 +28,11 @@ class DataSource {
     .then(receive => {
       const rows: EnchantableAttributeRow[] = [];
       for (const attribute of receive) {
-        let row = rows.find(p => p.rowNumber === attribute['Row']['Id']);
+        let row = rows.find(p => p.rowNumber === attribute['Row']['RowNumber']);
         if (row === undefined) {
           row = {
             enchantableAttributes: [],
-            rowNumber: attribute['Row']['Id'],
+            rowNumber: attribute['Row']['RowNumber'],
             probability: attribute['Row']['Probability']
           };
           rows.push(row);

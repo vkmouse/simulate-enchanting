@@ -1,4 +1,4 @@
-import { autorun } from "mobx";
+import { action, autorun, makeObservable, observable } from "mobx";
 import EnchantableAttributeRowStore from "../../../Data/Store/EnchantableAttributeRowStore";
 import EnchantmentSerialStore from "../../../Data/Store/EnchantmentSerialStore";
 import ComponentData from "../../Components/ComponentData";
@@ -11,11 +11,12 @@ interface IProps {
 class EnchantableAttributeInfoController {
   private props: IProps;
   
-  rowData: ComponentData[] = [];
-  rowNumber = 0;
-  rowProbability = 0;
+  @observable rowData: ComponentData[] = [];
+  @observable rowNumber = 0;
+  @observable rowProbability = 0;
 
   constructor(props: IProps) {
+    makeObservable(this);
     this.props = props;
     autorun(() => {
       this.updateRow(this.getFirstRow());
@@ -28,7 +29,7 @@ class EnchantableAttributeInfoController {
     }
   }
 
-  private updateRow(value: number) {
+  @action private updateRow(value: number) {
     this.rowNumber = value;
     this.rowData = this.getRowData();
     this.rowProbability = this.getRowProbability();

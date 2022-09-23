@@ -2,6 +2,7 @@ import { inject, observer } from "mobx-react";
 import React from "react";
 import EnchantableAttributeRowStore from "../../../Data/Store/EnchantableAttributeRowStore";
 import EnchantmentSerialStore from "../../../Data/Store/EnchantmentSerialStore";
+import EnchantableAttributeInfoController from "./EnchantableAttributeInfoController";
 import EnchantableAttributeInfoView from "./EnchantableAttributeInfoView";
 
 interface IProps {
@@ -9,40 +10,31 @@ interface IProps {
   enchantableAttributeRowStore: EnchantableAttributeRowStore
 }
 
-interface IState {
-  rowNumber: number
+interface EventProps {
   onRowNumberChange?: (value: NonNullable<unknown>) => void
 }
 
 @inject('enchantmentSerialStore', 'enchantableAttributeRowStore')
 @observer
-class EnchantableAttributeInfoViewModel extends React.Component<IProps, IState> {
+class EnchantableAttributeInfoViewModel extends React.Component<IProps> {
   static defaultProps = {} as IProps;
+  controller: EnchantableAttributeInfoController;
+  eventProps: EventProps;
 
   constructor(props: IProps) {
     super(props);
-    this.state = {
-      rowNumber: 1,
-      onRowNumberChange: p => this.setState({ rowNumber: p as number })
+    this.controller = new EnchantableAttributeInfoController(props);
+    this.eventProps = {
+      onRowNumberChange: (value: NonNullable<unknown>) => 
+        this.controller.setRowNumber(value as number)
     };
-  }
-
-  getRowProbability() {
-    const { enchantableAttributeRowStore } = this.props;
-    const found = enchantableAttributeRowStore.rows.find(p => p.rowNumber === this.state.rowNumber);
-    if (found !== undefined) {
-      return found.probability * 100;
-    } else {
-      return 0;
-    }
   }
 
   render() {
     return (
       <EnchantableAttributeInfoView
-        rowQuantity={this.props.enchantableAttributeRowStore.rows.length}
-        rowProbability={this.getRowProbability()}
-        { ...this.state }
+        { ...this.controller }
+        { ...this.eventProps }
       />
     );
   }
