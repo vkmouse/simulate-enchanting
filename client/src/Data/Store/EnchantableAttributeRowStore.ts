@@ -37,17 +37,17 @@ export class MockEnchantableAttributeRowStore extends EnchantableAttributeRowSto
         this.setRows([{
           enchantableAttributes: [],
           rowNumber: 1,
-          probability: 1
+          probability: 0.5
         }]);
       } else {
         this.setRows([{
           enchantableAttributes: [],
           rowNumber: 1,
-          probability: 1
+          probability: 0.6
         }, {
           enchantableAttributes: [],
           rowNumber: 2,
-          probability: 1
+          probability: 0.7
         }]);
       }
     }
