@@ -3,7 +3,9 @@ import ToggleButton from '../../Components/CustomToggleButton';
 
 interface IProps {
   rowQuantity: number
-  // probability: number
+  rowNumber: number
+  rowProbability: number
+  onRowNumberChange?: (value: NonNullable<unknown>) => void
 }
 
 class EnchantableAttributeInfoView extends React.Component<IProps> {
@@ -18,6 +20,7 @@ class EnchantableAttributeInfoView extends React.Component<IProps> {
   }
 
   render() {
+    const { rowNumber, rowProbability, onRowNumberChange } = this.props;
     return (
       <div className='wrapper'>
         <div className='wrapper__title'>附魔屬性</div>
@@ -25,11 +28,12 @@ class EnchantableAttributeInfoView extends React.Component<IProps> {
           <div className='wrapper__row'>
             <ToggleButton
               data={this.getToggleButtonData()}
-              value={1}
+              value={rowNumber}
               toggleButtonProps={{ sx: { fontSize: 16, lineHeight: 1.2 } }}
+              onChange={onRowNumberChange}
             />
             <div>
-              <div>附魔欄位機率: {100}%</div>
+              <div>附魔欄位機率: {rowProbability}%</div>
             </div>
           </div>
         </div>
