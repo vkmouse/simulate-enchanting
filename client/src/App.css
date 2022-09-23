@@ -41,3 +41,9 @@
   background-color: #EAF3F9;
   padding: 10px;
 }
+
+.wrapper__row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
