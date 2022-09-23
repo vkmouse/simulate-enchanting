@@ -7,12 +7,21 @@
   justify-content: center;
 }
 
+.page__title {
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
 .page__content {
   width: 800px;
 }
 
 .wrapper {
-
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .wrapper__title {
