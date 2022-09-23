@@ -27,4 +27,23 @@ class EnchantmentSerialStore {
   }
 }
 
+export class MockEnchantmentSerialStore extends EnchantmentSerialStore {
+  initialize() {
+    this.serials = [{
+      id: 1,
+      name: "name1",
+      des: "des1",
+      url: "url1",
+      api: "api1",
+    }, {
+      id: 2,
+      name: "name2",
+      des: "des2",
+      url: "url2",
+      api: "api2",
+    }];
+    this.serialId = 1;
+  }
+}
+
 export default EnchantmentSerialStore;
