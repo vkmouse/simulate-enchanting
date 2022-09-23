@@ -1,4 +1,5 @@
 import { action, autorun, makeObservable, observable } from "mobx";
+import { EnchantableAttribute } from "../../../Core/Core";
 import EnchantableAttributeRowStore from "../../../Data/Store/EnchantableAttributeRowStore";
 import EnchantmentSerialStore from "../../../Data/Store/EnchantmentSerialStore";
 import ComponentData from "../../Components/ComponentData";
@@ -11,6 +12,7 @@ interface IProps {
 
 class EnchantableAttributeInfoController {
   private props: IProps;
+  private attributeConverter = new AttributeConverter();
   
   @observable attributes: EnchantableAttributeInfo[] = [];
   @observable rowData: ComponentData[] = [];
@@ -42,12 +44,7 @@ class EnchantableAttributeInfoController {
     const found = this.findRow(this.rowNumber);
     if (found !== undefined) {
       return found.enchantableAttributes.map(p => {
-        const probability: string = 
-          (Math.round(p.probability * 100 * 1000) / 1000).toString();
-        return {
-          name: p.name,
-          probability
-        };
+        return this.attributeConverter.convert(p);
       });
     } else {
       return [];
@@ -81,12 +78,59 @@ class EnchantableAttributeInfoController {
     }
   }
 
+
   private containRow(rowNumber: number) {
     return this.findRow(rowNumber) !== undefined;
   }
 
   private findRow(rowNumber: number) {
     return this.props.enchantableAttributeRowStore.rows.find(p => p.rowNumber === rowNumber);
+  }
+}
+
+export class AttributeConverter {
+  convert(attribute: EnchantableAttribute): EnchantableAttributeInfo {
+    return {
+      name: this.convertAttributeToName(attribute),
+      probability: this.convertAttributeToProbability(attribute)
+    };
+  }
+
+  convertAttributeToName(attribute: EnchantableAttribute): string {
+    const { name, start, stop, step } = attribute;
+    const range = this.convertRangeToString(start, stop, step);
+    const percent = attribute.isPercentage ? '%' : '';
+    return `${name} ${range}${percent}`;
+  }
+
+  convertAttributeToProbability(attribute: EnchantableAttribute): string {
+    const { probability } = attribute;
+    return (Math.round(probability * 100 * 1000) / 1000).toString();
+  }
+
+  convertRangeToString(start: number, stop: number, step: number): string {
+    if (stop === 0 && start === 0 && step === 1) {
+      return '';
+    }
+  
+    if (stop === start) {
+      return `+${start}`;
+    }
+  
+    if (step === 1) {
+      if (start > 0) {
+        return `+${start}~${stop}`;
+      } else {
+        return `-${Math.abs(stop)}~${Math.abs(start)}`; 
+      }
+    } else {
+      let output = '+';
+      for (let i = start; i < stop; i = i + step) {
+        output += `${i},`;
+      }
+      output += stop.toString();
+      return output;
+    }
   }
 }
 

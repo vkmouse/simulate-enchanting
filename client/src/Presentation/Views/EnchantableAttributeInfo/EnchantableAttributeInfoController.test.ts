@@ -1,6 +1,6 @@
 import { MockEnchantableAttributeRowStore } from "../../../Data/Store/EnchantableAttributeRowStore";
 import { MockEnchantmentSerialStore } from "../../../Data/Store/EnchantmentSerialStore";
-import EnchantableAttributeInfoController from "./EnchantableAttributeInfoController";
+import EnchantableAttributeInfoController, { AttributeConverter } from "./EnchantableAttributeInfoController";
 
 function createController() {
   const enchantmentSerialStore = new MockEnchantmentSerialStore();
@@ -73,3 +73,12 @@ test('row probability', () => {
   expect(controller.rowProbability).toBe(50);
 });
 
+test('convert range to string', () => {
+  const converter = new AttributeConverter();
+  expect(converter.convertRangeToString(0, 0, 1)).toBe('');
+  expect(converter.convertRangeToString(1, 1, 1)).toBe('+1');
+  expect(converter.convertRangeToString(1, 3, 1)).toBe('+1~3');
+  expect(converter.convertRangeToString(1, 2, 1)).toBe('+1~2');
+  expect(converter.convertRangeToString(1, 5, 2)).toBe('+1,3,5');
+  expect(converter.convertRangeToString(-3, -1, 1)).toBe('-1~3');
+});
