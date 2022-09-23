@@ -6,6 +6,8 @@ from .delay_after_skill_parser import DelayAfterSkillParser
 from .long_short_ranged_physical_damage_parser import LongShortRangedPhysicalDamageParser
 from .mhp_msp_parser import MHPMSPParser
 from .recovery_parser import RecoveryParser
+from .reduced_damage_from_monster_parser import ReducedDamageFromMonsterParser
+from .reduced_sp_parser import ReducedSpParser
 from .variable_cast_time_parser import VariableCastTimeParser
 
 from .category_parser import CategoryParser

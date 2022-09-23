@@ -6,6 +6,8 @@ from simulate_enchanting.parser.category_parser import GeneralParser
 from simulate_enchanting.parser.category_parser import LongShortRangedPhysicalDamageParser
 from simulate_enchanting.parser.category_parser import MHPMSPParser
 from simulate_enchanting.parser.category_parser import RecoveryParser
+from simulate_enchanting.parser.category_parser import ReducedDamageFromMonsterParser
+from simulate_enchanting.parser.category_parser import ReducedSpParser
 from simulate_enchanting.parser.category_parser import VariableCastTimeParser
 
 class CategoryParser:
@@ -17,6 +19,8 @@ class CategoryParser:
             LongShortRangedPhysicalDamageParser(),
             MHPMSPParser(),
             RecoveryParser(),
+            ReducedDamageFromMonsterParser(),
+            ReducedSpParser(),
             VariableCastTimeParser(),
         ]
         self.__generalParser = GeneralParser()
