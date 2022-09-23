@@ -1,4 +1,4 @@
-import { MockEnchantableAttributeRowStore } from "./EnchantmentAttributeRowStore";
+import { MockEnchantableAttributeRowStore } from "./EnchantableAttributeRowStore";
 import { MockEnchantmentSerialStore } from "./EnchantmentSerialStore";
 
 test('auto update rows', () => {
