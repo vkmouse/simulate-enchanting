@@ -2,6 +2,7 @@ import { action, autorun, makeObservable, observable } from "mobx";
 import EnchantableAttributeRowStore from "../../../Data/Store/EnchantableAttributeRowStore";
 import EnchantmentSerialStore from "../../../Data/Store/EnchantmentSerialStore";
 import ComponentData from "../../Components/ComponentData";
+import EnchantableAttributeInfo from "./EnchantableAttributeInfo";
 
 interface IProps {
   enchantmentSerialStore: EnchantmentSerialStore
@@ -11,6 +12,7 @@ interface IProps {
 class EnchantableAttributeInfoController {
   private props: IProps;
   
+  @observable attributes: EnchantableAttributeInfo[] = [];
   @observable rowData: ComponentData[] = [];
   @observable rowNumber = 0;
   @observable rowProbability = 0;
@@ -33,6 +35,23 @@ class EnchantableAttributeInfoController {
     this.rowNumber = value;
     this.rowData = this.getRowData();
     this.rowProbability = this.getRowProbability();
+    this.attributes = this.getAttibutes();
+  }
+
+  private getAttibutes() {
+    const found = this.findRow(this.rowNumber);
+    if (found !== undefined) {
+      return found.enchantableAttributes.map(p => {
+        const probability: string = 
+          (Math.round(p.probability * 100 * 1000) / 1000).toString();
+        return {
+          name: p.name,
+          probability
+        };
+      });
+    } else {
+      return [];
+    }
   }
 
   private getRowData() {
