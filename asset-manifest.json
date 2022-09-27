@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/simulate-enchanting/static/css/main.fee4616c.css",
-    "main.js": "/simulate-enchanting/static/js/main.2f99f5fe.js",
+    "main.css": "/simulate-enchanting/static/css/main.174adf1f.css",
+    "main.js": "/simulate-enchanting/static/js/main.8518161f.js",
     "index.html": "/simulate-enchanting/index.html",
-    "main.fee4616c.css.map": "/simulate-enchanting/static/css/main.fee4616c.css.map",
-    "main.2f99f5fe.js.map": "/simulate-enchanting/static/js/main.2f99f5fe.js.map"
+    "main.174adf1f.css.map": "/simulate-enchanting/static/css/main.174adf1f.css.map",
+    "main.8518161f.js.map": "/simulate-enchanting/static/js/main.8518161f.js.map"
   },
   "entrypoints": [
-    "static/css/main.fee4616c.css",
-    "static/js/main.2f99f5fe.js"
+    "static/css/main.174adf1f.css",
+    "static/js/main.8518161f.js"
   ]
 }
