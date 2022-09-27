@@ -37,7 +37,7 @@ class EnchantableAttributeInfoView extends React.Component<IProps> {
             </div>
           </div>
           <div className='wrapper__row'>
-            <TableContainer>
+            <TableContainer sx={{ height: 300 }}>
               <Table size='small'>
                 <TableHead>
                   <TableRow>
