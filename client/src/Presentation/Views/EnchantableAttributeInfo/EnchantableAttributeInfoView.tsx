@@ -42,7 +42,7 @@ class EnchantableAttributeInfoView extends React.Component<IProps> {
                 <TableHead>
                   <TableRow>
                     <TableCell>屬性名稱</TableCell>
-                    <TableCell>機率</TableCell>
+                    <TableCell width="52px">機率</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

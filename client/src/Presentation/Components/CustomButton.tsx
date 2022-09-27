@@ -16,7 +16,6 @@ function CustomButton(props: IProps) {
       variant="contained" 
       onClick={onClick}
       disabled={disabled}
-      size={"medium"}
     >
       {label}
     </Button>

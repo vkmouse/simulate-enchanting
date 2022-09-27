@@ -19,7 +19,7 @@ function CustomCombobox(props: IProps) {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 125, margin: 0, marginLeft: 1 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 125, margin: 0, marginLeft: 1, maxWidth: 160 }} size="small">
       <InputLabel>{label}</InputLabel>
       <Select value={value} label={label} onChange={handleChange} >
         <MenuItem value={''}>

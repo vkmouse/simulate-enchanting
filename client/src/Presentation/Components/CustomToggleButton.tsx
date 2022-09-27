@@ -29,12 +29,13 @@ function CustomToggleButton(props: IProps) {
 
   return (
     <ToggleButtonGroup {...toggleButtonGroupProps}
+      sx={{ minWidth: 195 }}
       color="primary" 
       exclusive 
       onChange={handleChange} 
       value={value}>
       {data.map(p => 
-        <ToggleButton key={p.name} value={p.value} disabled={p.disabled} {...toggleButtonProps} size='small' >
+        <ToggleButton key={p.name} value={p.value} disabled={p.disabled} {...toggleButtonProps} size='small'>
           {p.name}
         </ToggleButton>
       )}
