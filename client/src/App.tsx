@@ -5,6 +5,7 @@ import RootStore from './Data/RootStore';
 import EnchantmentSerialInfoViewModel from './Presentation/Views/EnchantmentSerialInfo/EnchantmentSerialInfoViewModel';
 import EnchantableAttributeInfoViewModel from './Presentation/Views/EnchantableAttributeInfo/EnchantableAttributeInfoViewModel';
 import Title from './Presentation/Components/Title';
+import EnchantmentSimulationViewModel from './Presentation/Views/EnchantmentSimulation/EnchantmentSimulationViewModel';
 
 function App() {
   const rootStore: RootStore = new RootStore();
@@ -15,6 +16,7 @@ function App() {
         <Provider {...rootStore}>
           <EnchantmentSerialInfoViewModel />
           <EnchantableAttributeInfoViewModel />
+          <EnchantmentSimulationViewModel />
         </Provider>
       </div>
     </div>
