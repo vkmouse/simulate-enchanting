@@ -1,5 +1,6 @@
 import React from "react";
 import ComponentData from "../../Components/ComponentData";
+import Button from "../../Components/CustomButton";
 import TabPanel from "../../Components/CustomTabPanel";
 import ToggleButton from "../../Components/CustomToggleButton";
 import TextField from "../../Components/NumberTextField";
@@ -26,12 +27,15 @@ class EnchantmentSimulationView extends React.Component<IProps> {
       <div className='wrapper'>
         <div className='wrapper__title'>模擬附魔</div>
         <div className='wrapper__content'>
-          <ToggleButton
-            data={enchantmentMethodData}
-            value={condition}
-            toggleButtonProps={{ sx: { fontSize: 16, lineHeight: 1.2 } }}
-            onChange={onEnchantmentMethodChange}
-          />
+          <div className='wrapper__row'>
+            <ToggleButton
+              data={enchantmentMethodData}
+              value={condition}
+              toggleButtonProps={{ sx: { fontSize: 16, lineHeight: 1.2 } }}
+              onChange={onEnchantmentMethodChange}
+            />
+            <Button label='開始附魔'/>
+          </div>
           <TabPanel 
             index={enchantmentMethodData[0].value} 
             value={condition}
