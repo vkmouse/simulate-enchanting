@@ -1,4 +1,4 @@
-import { autorun, observable } from "mobx";
+import { action, autorun, makeObservable, observable } from "mobx";
 import { EnchantedAttributeRow } from "../../../Core/Core";
 import EnchantedStatsStore from "../../../Data/Store/EnchantedStatsStore";
 
@@ -7,12 +7,16 @@ interface IProps {
 }
 
 class EnchantmentStatsController {
-  props: IProps;
+  private props: IProps;
+
   @observable stats: string[][] = [];
 
   constructor(props: IProps) {
+    makeObservable(this);
     this.props = props;
-    autorun(() => this.updateStats());
+    autorun(() => {
+      this.updateStats(this.props.enchantedStatsStore.stats);
+    });
   }
 
   convertAttributeRowToString(attribute: EnchantedAttributeRow): string {
@@ -22,15 +26,16 @@ class EnchantmentStatsController {
     return `${name} ${symbol}${Math.abs(value)}${percent}`;
   }
 
-  private updateStats() {
-    this.stats = [];
-    for (const attributeRows of this.props.enchantedStatsStore.stats) {
+  @action private updateStats(newStats: EnchantedAttributeRow[][]) {
+    const stats = [];
+    for (const attributeRows of newStats) {
       const rows: string[] = [];
       for (const attributeRow of attributeRows) {
         rows.push(this.convertAttributeRowToString(attributeRow));
       }
-      this.stats.push(rows);
+      stats.push(rows);
     }
+    this.stats = stats;
   }
 }
 
