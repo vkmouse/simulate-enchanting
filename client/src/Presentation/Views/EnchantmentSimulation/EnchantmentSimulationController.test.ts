@@ -29,3 +29,11 @@ test('set enchantment method', () => {
   controller.setEnchantmentMethod(EnchantingTerminationCondition.TargetReached);
   expect(enchantedUserStore.condition).toBe(EnchantingTerminationCondition.TargetReached);
 });
+
+test('set times', () => {
+  const { enchantedUserStore, controller } = createController();
+  expect(enchantedUserStore.times).toBe(1);
+  
+  controller.setTimes(100);
+  expect(enchantedUserStore.times).toBe(100);
+});

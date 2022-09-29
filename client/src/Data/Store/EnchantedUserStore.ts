@@ -13,6 +13,10 @@ class EnchantedUserStore implements EnchantedUserProps {
   @action setCondition(value: EnchantingTerminationCondition) {
     this.condition = value;
   }
+
+  @action setTimes(value: number) {
+    this.times = value;
+  }
 }
 
 export default EnchantedUserStore;

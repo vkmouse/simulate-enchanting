@@ -25,6 +25,10 @@ class EnchantmentSimulationController {
   setEnchantmentMethod(value: EnchantingTerminationCondition) {
     this.props.enchantedUserStore.setCondition(value);
   }
+
+  setTimes(value: number) {
+    this.props.enchantedUserStore.setTimes(value);
+  }
 }
 
 export default EnchantmentSimulationController;

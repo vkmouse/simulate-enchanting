@@ -11,6 +11,7 @@ interface IProps {
 
 interface EventProps {
   onEnchantmentMethodChange?: (value: NonNullable<unknown>) => void
+  onEnchantmentTimesChange?: (value: number) => void
 }
 
 @inject('enchantedUserStore')
@@ -25,7 +26,9 @@ class EnchantmentSimulationViewModel extends React.Component<IProps> {
     this.controller = new EnchantmentSimulationController(props);
     this.eventProps = {
       onEnchantmentMethodChange: (value: NonNullable<unknown>) => 
-        this.controller.setEnchantmentMethod(value as EnchantingTerminationCondition)
+        this.controller.setEnchantmentMethod(value as EnchantingTerminationCondition),
+      onEnchantmentTimesChange: (value: number) => 
+        this.controller.setTimes(value)
     };
   }
 

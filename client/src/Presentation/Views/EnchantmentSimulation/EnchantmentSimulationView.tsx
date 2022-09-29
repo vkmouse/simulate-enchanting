@@ -2,19 +2,24 @@ import React from "react";
 import ComponentData from "../../Components/ComponentData";
 import TabPanel from "../../Components/CustomTabPanel";
 import ToggleButton from "../../Components/CustomToggleButton";
+import TextField from "../../Components/NumberTextField";
 
 interface IProps {
   enchantmentMethodData: ComponentData[]
   condition: NonNullable<unknown>
+  times: number
   onEnchantmentMethodChange?: (value: NonNullable<unknown>) => void
+  onEnchantmentTimesChange?: (value: number) => void
 }
 
 class EnchantmentSimulationView extends React.Component<IProps> {
   render() {
     const { 
       enchantmentMethodData, 
-      condition, 
-      onEnchantmentMethodChange 
+      condition,
+      times,
+      onEnchantmentMethodChange,
+      onEnchantmentTimesChange
     } = this.props;
 
     return (
@@ -31,7 +36,12 @@ class EnchantmentSimulationView extends React.Component<IProps> {
             index={enchantmentMethodData[0].value} 
             value={condition}
           >
-            Page 1
+            <TextField 
+              label={"附魔次數"} 
+              value={times} 
+              onChange={onEnchantmentTimesChange}
+              maxValue={9999}
+            />
           </TabPanel>
           <TabPanel 
             index={enchantmentMethodData[1].value} 
