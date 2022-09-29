@@ -1,19 +1,40 @@
+import { inject, observer } from "mobx-react";
 import React from "react";
 import { EnchantingTerminationCondition } from "../../../Core/Core";
+import EnchantedUserStore from "../../../Data/Store/EnchantedUserStore";
+import EnchantmentSimulationController from "./EnchantmentSimulationController";
 import EnchantmentSimulationView from "./EnchantmentSimulationView";
 
-class EnchantmentSimulationViewModel extends React.Component {
+interface IProps {
+  enchantedUserStore: EnchantedUserStore
+}
+
+interface EventProps {
+  onEnchantmentMethodChange?: (value: NonNullable<unknown>) => void
+}
+
+@inject('enchantedUserStore')
+@observer
+class EnchantmentSimulationViewModel extends React.Component<IProps> {
+  static defaultProps = {} as IProps;
+  controller: EnchantmentSimulationController;
+  eventProps: EventProps;
+
+  constructor(props: IProps) {
+    super(props);
+    this.controller = new EnchantmentSimulationController(props);
+    this.eventProps = {
+      onEnchantmentMethodChange: (value: NonNullable<unknown>) => 
+        this.controller.setEnchantmentMethod(value as EnchantingTerminationCondition)
+    };
+  }
+
   render() {
     return (
       <EnchantmentSimulationView 
-        enchantmentMethodData={[{
-          name: "次數附魔",
-          value: EnchantingTerminationCondition.TimesReached
-        }, {
-          name: "目標附魔",
-          value: EnchantingTerminationCondition.TargetReached
-        }]}
-        enchantmentMethod={EnchantingTerminationCondition.TimesReached}
+        { ...this.eventProps }
+        { ...this.props.enchantedUserStore }
+        enchantmentMethodData={this.controller.getEnchantmentMethodData()}
       />
     );
   }
