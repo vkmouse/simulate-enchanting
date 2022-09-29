@@ -1,10 +1,23 @@
 import { EnchantingTerminationCondition } from "../../../Core/Core";
+import { MockEnchantableAttributeRowStore } from "../../../Data/Store/EnchantableAttributeRowStore";
+import EnchantedStatsStore from "../../../Data/Store/EnchantedStatsStore";
 import EnchantedUserStore from "../../../Data/Store/EnchantedUserStore";
+import { MockEnchantmentSerialStore } from "../../../Data/Store/EnchantmentSerialStore";
 import EnchantmentSimulationController from "./EnchantmentSimulationController";
 
 function createController() {
+  const enchantmentSerialStore = new MockEnchantmentSerialStore();
+  const enchantableAttributeRowStore = new MockEnchantableAttributeRowStore(enchantmentSerialStore);
   const enchantedUserStore = new EnchantedUserStore();
-  const controller = new EnchantmentSimulationController({ enchantedUserStore });
+  const enchantedStatsStore = new EnchantedStatsStore(999);
+  enchantmentSerialStore.initialize();
+  enchantableAttributeRowStore.initialize();
+  enchantmentSerialStore.setSerialId(2);
+  const controller = new EnchantmentSimulationController({ 
+    enchantableAttributeRowStore, 
+    enchantedUserStore,
+    enchantedStatsStore
+  });
   return { 
     controller,
     enchantedUserStore

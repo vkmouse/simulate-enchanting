@@ -11,6 +11,7 @@ interface IProps {
   times: number
   onEnchantmentMethodChange?: (value: NonNullable<unknown>) => void
   onEnchantmentTimesChange?: (value: number) => void
+  onStartEnchantingClick?: () => void
 }
 
 class EnchantmentSimulationView extends React.Component<IProps> {
@@ -20,7 +21,8 @@ class EnchantmentSimulationView extends React.Component<IProps> {
       condition,
       times,
       onEnchantmentMethodChange,
-      onEnchantmentTimesChange
+      onEnchantmentTimesChange,
+      onStartEnchantingClick
     } = this.props;
 
     return (
@@ -34,7 +36,7 @@ class EnchantmentSimulationView extends React.Component<IProps> {
               toggleButtonProps={{ sx: { fontSize: 16, lineHeight: 1.2 } }}
               onChange={onEnchantmentMethodChange}
             />
-            <Button label='開始附魔'/>
+            <Button label='開始附魔' onClick={onStartEnchantingClick} />
           </div>
           <TabPanel 
             index={enchantmentMethodData[0].value} 
