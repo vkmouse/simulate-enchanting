@@ -1,6 +1,6 @@
 import React from 'react';
 import ComponentData from '../../Components/ComponentData';
-import CustomTable from '../../Components/CustomTable';
+import Table from '../../Components/CustomTable';
 import ToggleButton from '../../Components/CustomToggleButton';
 import EnchantableAttributeInfo from './EnchantableAttributeInfo';
 
@@ -37,7 +37,7 @@ class EnchantableAttributeInfoView extends React.Component<IProps> {
             </div>
           </div>
           <div className='wrapper__row'>
-            <CustomTable 
+            <Table 
               columes={['屬性名稱', '機率']}
               rows={attributes.map(p => [p.name, `${p.probability}%`])}
               rowsWidth={['', '52px']}
