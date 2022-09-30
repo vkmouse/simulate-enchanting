@@ -1,4 +1,4 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import React from "react";
 
 interface IProps {
@@ -68,7 +68,7 @@ class CustomTable extends React.Component<IProps, IState> {
     const { page, rowsPerPage } = this.state;
 
     return (
-      <Paper>
+      <Box sx={{ width: '100%' }}>
         <TableContainer>
           <Table size='small'>
             <TableHead>
@@ -98,7 +98,7 @@ class CustomTable extends React.Component<IProps, IState> {
           onPageChange={this.handleChangePage}
           onRowsPerPageChange={this.handleChangeRowsPerPage}
         />
-      </Paper>
+      </Box>
     );
   }
 }

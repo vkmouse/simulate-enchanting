@@ -1,6 +1,6 @@
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
 import React from 'react';
 import ComponentData from '../../Components/ComponentData';
+import CustomTable from '../../Components/CustomTable';
 import ToggleButton from '../../Components/CustomToggleButton';
 import EnchantableAttributeInfo from './EnchantableAttributeInfo';
 
@@ -37,24 +37,11 @@ class EnchantableAttributeInfoView extends React.Component<IProps> {
             </div>
           </div>
           <div className='wrapper__row'>
-            <TableContainer sx={{ height: 300 }}>
-              <Table size='small'>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>屬性名稱</TableCell>
-                    <TableCell width="52px">機率</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {attributes.map(p =>
-                    <TableRow key={p.name}>
-                      <TableCell>{p.name}</TableCell>
-                      <TableCell>{p.probability}%</TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>    
+            <CustomTable 
+              columes={['屬性名稱', '機率']}
+              rows={attributes.map(p => [p.name, `${p.probability}%`])}
+              rowsWidth={['', '52px']}
+            />
           </div>
         </div>
       </div>
