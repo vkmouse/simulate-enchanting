@@ -19,7 +19,7 @@ class CustomTabPanel extends React.Component<TabPanelProps> {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 3 }}>
+          <Box sx={{ marginTop: '10px' }}>
             {children}
           </Box>
         )}
