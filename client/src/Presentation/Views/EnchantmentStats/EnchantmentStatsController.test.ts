@@ -1,5 +1,6 @@
 import { EnchantedAttributeRow } from "../../../Core/Core";
 import EnchantedStatsStore from "../../../Data/Store/EnchantedStatsStore";
+import { MockEnchantmentSerialStore } from "../../../Data/Store/EnchantmentSerialStore";
 import EnchantmentStatsController from "./EnchantmentStatsController";
 
 function createData(): EnchantedAttributeRow[][] {
@@ -26,10 +27,14 @@ function createData(): EnchantedAttributeRow[][] {
 }
 
 function createController() {
+  const enchantmentSerialStore = new MockEnchantmentSerialStore();
   const enchantedStatsStore = new EnchantedStatsStore(999);
-  const controller = new EnchantmentStatsController({ enchantedStatsStore });
+  enchantmentSerialStore.initialize();
+  enchantmentSerialStore.setSerialId(2);
+  const controller = new EnchantmentStatsController({ enchantmentSerialStore, enchantedStatsStore });
   return { 
     controller,
+    enchantmentSerialStore,
     enchantedStatsStore
   };
 }
@@ -58,4 +63,18 @@ test('stats auto update', () => {
   enchantedStatsStore.pushStats([data[1]]);
   expect(controller.stats.length).toBe(2);
   expect(controller.stats[1]).toStrictEqual(["name2 +6"]);
+});
+
+test('clear stats if serial change', () => {
+  const { enchantmentSerialStore, enchantedStatsStore, controller } = createController();
+  const data = createData();
+
+  expect(enchantedStatsStore.stats.length).toBe(0);
+  expect(controller.stats.length).toBe(0);
+
+  enchantedStatsStore.pushStats([data[0]]);
+  expect(controller.stats.length).toBe(1);
+
+  enchantmentSerialStore.setSerialId(1);
+  expect(controller.stats.length).toBe(0);
 });

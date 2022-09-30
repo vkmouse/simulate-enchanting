@@ -1,8 +1,10 @@
 import { action, autorun, makeObservable, observable } from "mobx";
 import { EnchantedAttributeRow } from "../../../Core/Core";
 import EnchantedStatsStore from "../../../Data/Store/EnchantedStatsStore";
+import EnchantmentSerialStore from "../../../Data/Store/EnchantmentSerialStore";
 
 interface IProps {
+  enchantmentSerialStore: EnchantmentSerialStore
   enchantedStatsStore: EnchantedStatsStore
 }
 
@@ -16,6 +18,10 @@ class EnchantmentStatsController {
     this.props = props;
     autorun(() => {
       this.updateStats(this.props.enchantedStatsStore.stats);
+    });
+    autorun(() => {
+      this.props.enchantmentSerialStore.serialId; // auto run when serialId change
+      this.props.enchantedStatsStore.clear();
     });
   }
 
